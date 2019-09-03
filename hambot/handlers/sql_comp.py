@@ -3,6 +3,7 @@ this will be the main entry point to the program, will probably end up being a f
 """
 
 import sys, os, csv
+
 # from pprint import pprint
 from cocore.Logger import Logger
 from cocore.config import Config
@@ -11,17 +12,19 @@ from codb.rdb_tools import DBInteraction
 CONF = Config()
 LOG = Logger()
 
+
 class Test(object):
     """
 
     """
+
     def __init__(self, test_conf):
         """
 
         :param test_conf:
         :return:
         """
-        print(f'=====>>>>> test_conf: {test_conf}')
+        print(f"=====>>>>> test_conf: {test_conf}")
         self.test_conf = test_conf
 
     @staticmethod
@@ -31,6 +34,7 @@ class Test(object):
         :param script:
         :return:
         """
+
         def expand_params(sql):
             """
             substitutes params in sql stagement
@@ -39,18 +43,20 @@ class Test(object):
             :return: sql, expanded with params
             """
 
-            params = {'aws_access_key': CONF['general']['aws_access_key'],
-                      'aws_secret_key': CONF['general']['aws_secret_key']}
+            params = {
+                "aws_access_key": CONF["general"]["aws_access_key"],
+                "aws_secret_key": CONF["general"]["aws_secret_key"],
+            }
 
             for p in params.keys():
-                var = '$[?' + p + ']'
+                var = "$[?" + p + "]"
                 val = str(params[p])
                 sql = sql.replace(var, val)
             return sql
 
-        if script[-4:] == '.sql':
-            with open(script, 'r') as myfile:
-                script_data=myfile.read()
+        if script[-4:] == ".sql":
+            with open(script, "r") as myfile:
+                script_data = myfile.read()
         else:
             script_data = script
 
@@ -62,6 +68,7 @@ class Test(object):
 
         :return:
         """
+
         def convert_types(num):
             if not num:
                 num = 0
@@ -70,27 +77,30 @@ class Test(object):
             else:
                 return float(num)
 
-        label = self.test_conf['label']
-        conn_a = self.test_conf['conn_a']
-        conn_b = self.test_conf['conn_b']
-        script_a = self.get_script(self.test_conf['script_a'])
-        script_b = self.get_script(self.test_conf['script_b'])
-        warning_threshold = self.test_conf.get('warning_threshold', 1)
-        failure_threshold = self.test_conf.get('failure_threshold', 1)
-        percent_diff = self.test_conf.get('pct_diff', False)
-        heartbeat = self.test_conf.get('heartbeat', False)
-        d_query_a = self.test_conf.get('diagnostic_query_a', None)
-        d_query_b = self.test_conf.get('diagnostic_query_b', None)
-        
+        label = self.test_conf["label"]
+        conn_a = self.test_conf["conn_a"]
+        conn_b = self.test_conf["conn_b"]
+        script_a = self.get_script(self.test_conf["script_a"])
+        script_b = self.get_script(self.test_conf["script_b"])
+        warning_threshold = self.test_conf.get("warning_threshold", 1)
+        failure_threshold = self.test_conf.get("failure_threshold", 1)
+        percent_diff = self.test_conf.get("pct_diff", False)
+        heartbeat = self.test_conf.get("heartbeat", False)
+        d_query_a = self.test_conf.get("diagnostic_query_a", None)
+        d_query_b = self.test_conf.get("diagnostic_query_b", None)
+
         if d_query_a:
             diagnostic_query_a = self.get_script(d_query_a)
         if d_query_b:
             diagnostic_query_b = self.get_script(d_query_b)
 
-        LOG.l('\n---------------------------------------------------------------------\n' + label + \
-              '\n---------------------------------------------------------------------\n')
-        print(f'conn_a: {conn_a}')
-        print(f'conn_b: {conn_b}')
+        LOG.l(
+            "\n---------------------------------------------------------------------\n"
+            + label
+            + "\n---------------------------------------------------------------------\n"
+        )
+        print(f"conn_a: {conn_a}")
+        print(f"conn_b: {conn_b}")
 
         conf = Config()[conn_a]
         conn_a = DBInteraction(conn_a)
@@ -98,42 +108,42 @@ class Test(object):
         conf = Config()[conn_b]
         conn_b = DBInteraction(conn_b)
 
-        LOG.l('script_a: \n' + script_a + '\n')
-        LOG.l('script_b: \n' + script_b + '\n')
+        LOG.l("script_a: \n" + script_a + "\n")
+        LOG.l("script_b: \n" + script_b + "\n")
 
         result_a = convert_types(conn_a.fetch_sql_one(script_a)[0])
         result_b = convert_types(conn_b.fetch_sql_one(script_b)[0])
 
         if percent_diff:
-            LOG.l('comparison mode: percent diff')
+            LOG.l("comparison mode: percent diff")
             denominator = result_a if result_a and result_a != 0 else 1
-            diff = abs(result_a - result_b)/float(denominator)
+            diff = abs(result_a - result_b) / float(denominator)
         else:
-            LOG.l('comparison mode: absolute')
+            LOG.l("comparison mode: absolute")
             diff = abs(result_a - result_b)
 
-        status = ''
+        status = ""
         if heartbeat:
-            LOG.l('heartbeat mode')
+            LOG.l("heartbeat mode")
             if diff <= failure_threshold:
-                status = 'failure'
+                status = "failure"
             elif diff <= warning_threshold:
-                status = 'warning'
+                status = "warning"
             else:
-                status = 'success'
+                status = "success"
         else:
             if diff >= failure_threshold:
-                status = 'failure'
+                status = "failure"
             elif diff >= warning_threshold:
-                status = 'warning'
+                status = "warning"
             else:
-                status = 'success'
-        
-        if status != 'success' and d_query_a or d_query_b:
-            if os.path.isfile('diagnostic_query_results.csv'):
-                q_results = open('diagnostic_query_results.csv', 'a')
+                status = "success"
+
+        if status != "success" and d_query_a or d_query_b:
+            if os.path.isfile("diagnostic_query_results.csv"):
+                q_results = open("diagnostic_query_results.csv", "a")
             else:
-                q_results = open('diagnostic_query_results.csv', 'w')
+                q_results = open("diagnostic_query_results.csv", "w")
 
             res_csv = csv.writer(q_results)
             res_csv.writerow([label])
@@ -146,11 +156,17 @@ class Test(object):
                 res_b = conn_b.con.execute(diagnostic_query_b)
                 res_csv.writerow(res_b.keys())
                 res_csv.writerows(res_b)
-                
-            res_csv.writerow('\n')
+
+            res_csv.writerow("\n")
             q_results.close()
 
-        detail = {'status': status, 'test': label, 'result_a': result_a, 'result_b': result_b,
-                  'diff': diff, 'test_conf': self.test_conf}
-        
+        detail = {
+            "status": status,
+            "test": label,
+            "result_a": result_a,
+            "result_b": result_b,
+            "diff": diff,
+            "test_conf": self.test_conf,
+        }
+
         return status, detail

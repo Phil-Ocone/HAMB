@@ -1,0 +1,21 @@
+sample_leads_from_prior_day:
+    label: "compare leads from prior day should be at least 500"
+    handler: "sql_comp"
+    conn_a:  "sample_connection_foo"
+    script_a: "select count(id) as total from leads"
+    conn_b: "sample_connection_bar"
+    script_b: "select count(*) from leads where created_on =  (trunc(getdate() - 1))"
+    pct_diff: False
+    warning_threshold: 5000
+    failure_threshold: 1000
+
+sample_accepted_leads_from_prior_day:
+    label: "compare accepted leads from prior day should be at least 25"
+    handler: "sql_comp"
+    conn_a:  "sample_connection_foo"
+    script_a: "select 25"
+    conn_b: "sample_connection_bar"
+    script_b: "select count(*) from leads where accepted = 1 and created_on =  (trunc(getdate() - 1))"
+    pct_diff: False
+    warning_threshold: 50
+    failure_threshold: 25
