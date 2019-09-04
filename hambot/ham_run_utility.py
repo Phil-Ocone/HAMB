@@ -84,7 +84,6 @@ class TestEngine(object):
         result["success detail"] = []
 
         test_config = manifest_reader(manifest)
-
         job = []
         stat = []
         diff = []
