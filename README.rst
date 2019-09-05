@@ -109,3 +109,12 @@ To run the testing suite, the following commands are required:
 
   pip install -r requirements-dev.txt
   tox
+
+
+Documentation
+============
+Hambot documentation is powered by sphynx, a tool that makes documentation easy.
+
+To see hambot documentation, open to ``/docs/_build/html/index.html``
+
+If you want to make changes, edit ``/docs/index.rst`` and run ``make html``.
