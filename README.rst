@@ -113,8 +113,13 @@ To run the testing suite, the following commands are required:
 
 Documentation
 ============
-Hambot documentation is powered by sphynx, a tool that makes documentation easy.
+Hambot documentation is powered by `Sphinx <https://www.sphinx-doc.org/en/master/>`_, a tool that makes documentation easy.
 
-To see hambot documentation, open to ``/docs/_build/html/index.html``
+To build docs locally, run ``make html``.
 
-If you want to make changes, edit ``/docs/index.rst`` and run ``make html``.
+To see hambot documentation, open ``/docs/_build/html/index.html``.
+
+If you want to make changes, edit ``README.rst`` and build docs again.
+
+
+
