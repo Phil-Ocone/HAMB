@@ -28,7 +28,7 @@ setup(
     version=get_version(),
     author="Equinox",
     description="",
-    long_description=open('README.md').read(),
+    long_description=open('README.rst').read(),
     url="https://bitbucket.org/equinoxfitness/hambot",
     scripts=[],
     license="TBD",
