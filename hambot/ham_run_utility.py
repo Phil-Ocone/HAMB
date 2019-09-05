@@ -2,7 +2,6 @@ from pprint import pprint
 from datetime import datetime
 import json
 import yaml
-import redis
 import pandas as pd
 from cocore.Logger import Logger
 from cocore.config import Config
@@ -12,13 +11,14 @@ import uuid
 
 CONF = Config()
 LOG = Logger()
-KEY_PREFIX = 'dq'
+KEY_PREFIX = "dq"
 
 
 class HandlerEngine(object):
     """
 
     """
+
     @staticmethod
     def run(manifest, result, file_location=None):
         """
@@ -26,49 +26,39 @@ class HandlerEngine(object):
         import and run appropriate handler(s)
         :return:
         """
-        LOG.l('\n---------------------------\nhandlers')
-        level = result['summary']['status']
-        LOG.l('handler level: ' + level)
+        LOG.l("\n---------------------------\nhandlers")
+        level = result["summary"]["status"]
+        LOG.l("handler level: " + level)
         config = get_handler_config(manifest, level, file_location)
 
-        # default handlers
-        try:
-            RedisInteraction().write(manifest, result)
-        except:
-            LOG.l_exception('issue with redis')
-
-        print('\n---------------------------\noverall results for: ' + manifest + '\n')
-        pprint(result['START SUMMARY'])
-        print('SUMMARY:')
-        pprint(result['summary'])
-        print('\n' + 'SUCCESSES:' + '\n')
-        pprint(result['success detail'])
-        print('FAILS:' + '\n')
-        pprint(result['fail detail'])
-        print('\n')
-        pprint(result['table'])
-        print('\n')
-        
-
+        print("\n---------------------------\noverall results for: " + manifest + "\n")
+        pprint(result["START SUMMARY"])
+        print("SUMMARY:")
+        pprint(result["summary"])
+        print("\n" + "SUCCESSES:" + "\n")
+        pprint(result["success detail"])
+        print("FAILS:" + "\n")
+        pprint(result["fail detail"])
+        print("\n")
+        pprint(result["table"])
+        print("\n")
 
         # service specific handlers
         for handler in config:
-            print(f'handler: {handler}')
-            LOG.l('executing handler: ' + list(handler.keys())[0])
-            test_module = f'hambot.handlers.{list(handler.keys())[0]}'
+            print(f"handler: {handler}")
+            LOG.l("executing handler: " + list(handler.keys())[0])
+            test_module = f"hambot.handlers.{list(handler.keys())[0]}"
             print(test_module)
-            mod = __import__(test_module, fromlist=['Handler'])
-            class_ = getattr(mod, 'Handler')
+            mod = __import__(test_module, fromlist=["Handler"])
+            class_ = getattr(mod, "Handler")
             class_().run(result, list(handler.values())[0])
-
-
-
 
 
 class TestEngine(object):
     """
     main entry point for ham_run
     """
+
     @staticmethod
     def run(manifest, file_location=None):
         """
@@ -84,108 +74,100 @@ class TestEngine(object):
         # result= {'START SUMMARY': [], 'summary': {}, 'new output': {}, 'success detail': [], 'fail detail': []}
 
         result = OrderedDict()
-        result['START SUMMARY'] = '***********************************************************************************************************************************************************************************' \
-                               '***********************************************************************************************************************************************************************************'
-        result ['table'] = {}
-        result['summary'] = {}
-        result['fail detail'] = []
-        result['success detail'] = []
+        result["START SUMMARY"] = (
+            "***********************************************************************************************************************************************************************************"
+            "***********************************************************************************************************************************************************************************"
+        )
+        result["table"] = {}
+        result["summary"] = {}
+        result["fail detail"] = []
+        result["success detail"] = []
 
         test_config = manifest_reader(manifest)
-
         job = []
         stat = []
         diff = []
         for test, test_conf in test_config.items():
-            test_module = f'hambot.handlers.{test_conf["type"].lower()}'
+            test_module = f'hambot.handlers.{test_conf["handler"].lower()}'
             print(test_module)
-            mod = __import__(test_module, fromlist=['Test'])
+            mod = __import__(test_module, fromlist=["Test"])
             try:
-                class_ = getattr(mod, 'Test')
+                class_ = getattr(mod, "Test")
             except:
-                LOG.l_exception('module not present or issue in module import')
+                LOG.l_exception("module not present or issue in module import")
                 exit(1)
             status, detail = class_(test_conf).run()
 
-            if status == 'success':
+            if status == "success":
                 passed_cnt += 1
-            elif status == 'warning':
+            elif status == "warning":
                 warning_cnt += 1
             else:
                 failed_cnt += 1
 
-            if status == 'success':
-                result['success detail'].insert(0, detail)
-                diff.append(' ')
-            elif status == 'warning':
-                result['success detail'].append(detail)
-                diff.append(detail['diff'])
+            if status == "success":
+                result["success detail"].insert(0, detail)
+                diff.append(" ")
+            elif status == "warning":
+                result["success detail"].append(detail)
+                diff.append(detail["diff"])
             else:
-                result['fail detail'].append(detail)
-                diff.append(detail['diff'])
+                result["fail detail"].append(detail)
+                diff.append(detail["diff"])
 
-            job.append(detail['test'])
-            stat.append(detail['status'])
+            job.append(detail["test"])
+            stat.append(detail["status"])
             LOG.l(status)
             LOG.l(detail)
-            
+
             # add to database
             try:
-                engine = create_engine(CONF['hambot']['database'])
+                engine = create_engine(CONF["hambot"]["database"])
                 idnum = uuid.uuid1()
-                insert = engine.execute("""
+                insert = engine.execute(
+                    """
                 INSERT INTO public.hambot_history
                 (manifest, test, status, source_connection, "source count", target_connection, "target count", diff, warning_threshold, failure_threshold, environment, created_time, uuid)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""", 
-                (manifest, test, status, test_conf['conn_a'], detail['result_a'], test_conf['conn_b'], detail['result_b'], detail['diff'], test_conf['warning_threshold'], test_conf['failure_threshold'], CONF['hambot']['environment'], datetime.now(), idnum))
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+                    (
+                        manifest,
+                        test,
+                        status,
+                        test_conf["conn_a"],
+                        detail["result_a"],
+                        test_conf["conn_b"],
+                        detail["result_b"],
+                        detail["diff"],
+                        test_conf["warning_threshold"],
+                        test_conf["failure_threshold"],
+                        CONF["hambot"]["environment"],
+                        datetime.now(),
+                        idnum,
+                    ),
+                )
             except:
                 print("cannot write results to database")
                 pass
 
         if failed_cnt > 0:
-            overall_status = 'failure'
+            overall_status = "failure"
         elif warning_cnt > 0:
-            overall_status = 'warning'
+            overall_status = "warning"
         else:
-            overall_status = 'success'
+            overall_status = "success"
 
-        result['summary'] = {
-            'status': overall_status,
-            'failed_count': failed_cnt,
-            'warning_cnt': warning_cnt,
-            'passed_cnt': passed_cnt,
-            'exec_time': str(datetime.now()),
-            'manifest': manifest
+        result["summary"] = {
+            "status": overall_status,
+            "failed_count": failed_cnt,
+            "warning_cnt": warning_cnt,
+            "passed_cnt": passed_cnt,
+            "exec_time": str(datetime.now()),
+            "manifest": manifest,
         }
-        table = {'Job': job, 'Status': stat, 'Diff': diff}
-        result['table'] = pd.DataFrame(data=table, columns=('Job', 'Status', 'Diff'))
+        table = {"Job": job, "Status": stat, "Diff": diff}
+        result["table"] = pd.DataFrame(data=table, columns=("Job", "Status", "Diff"))
 
         return result
-
-# FIXME move me to datacoco3.db
-class RedisInteraction(object):
-    """
-    small wrapper on redis interaction to handle json serdes
-    """
-
-    def __init__(self):
-        """
-
-        :return:
-        """
-        server = CONF['redis']['server']
-        db = CONF['redis']['db']
-        self.rconn = redis.StrictRedis(host=server, port=6379, db=db)
-
-    def write(self, key, data):
-        """
-
-        :param key:
-        :param data:
-        :return:
-        """
-        # rconn.hmset(KEY_PREFIX + '.' + incident, {"result": payload, "incident_dt": str(datetime.now())})
-        self.rconn.set(KEY_PREFIX + '.' + key, json.dumps(data, default=json_serial))
 
 
 def manifest_reader(manifest, file_location=None):
@@ -195,8 +177,8 @@ def manifest_reader(manifest, file_location=None):
     :return:
     """
     if not file_location:
-        file_location = 'manifests/%s.yaml'
-    with open(file_location % manifest, 'r') as checklist_yaml:
+        file_location = "manifests/%s.yaml"
+    with open(file_location % manifest, "r") as checklist_yaml:
         try:
             test_config = yaml.load(checklist_yaml)
         except:
@@ -212,17 +194,17 @@ def get_handler_config(service, level, file_location=None):
     """
     handler_config = None
     if not file_location:
-        file_location = 'services.yaml'
-    with open(file_location, 'r') as services_yaml:
+        file_location = "services.yaml"
+    with open(file_location, "r") as services_yaml:
         try:
             obj = yaml.load(services_yaml)
         except:
-            LOG.l_exception('issue parsing yaml')
+            LOG.l_exception("issue parsing yaml")
             exit(1)
         if service in obj:
             handler_config = obj[service][level]
         else:
-            handler_config = obj['default'][level]
+            handler_config = obj["default"][level]
     # pprint(handler_config)
     return handler_config
 

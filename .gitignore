@@ -1,3 +1,6 @@
+# Platform specific
+etl.cfg
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -104,3 +107,4 @@ venv.bak/
 .mypy_cache/
 
 .DS_Store
+etl.cfg
