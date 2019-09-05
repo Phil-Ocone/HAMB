@@ -12,9 +12,6 @@ Getting started with Hambot
   :target: http://sphinx-rtd-theme.readthedocs.io/en/latest/?badge=latest
   :alt: Documentation Status
 
-.. image:: ./hambot.png
-  :align:   center
-
 
 Local setup
 ============
@@ -112,7 +109,7 @@ To run the testing suite, the following commands are required:
 
 
 Documentation
-============
+=============
 Hambot documentation is powered by `Sphinx <https://www.sphinx-doc.org/en/master/>`_, a tool that makes documentation easy.
 
 To build docs locally, run ``make html``.
