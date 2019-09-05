@@ -15,7 +15,6 @@ Getting started with Hambot
 .. image:: ./hambot.png
   :align:   center
 
-Short description about hambot...
 
 Local setup
 ============
@@ -32,11 +31,9 @@ Save credentials to ``etl.cfg`` file locally in project directory. See ``sample.
 
 Manifests
 ============
-This is where you will store metadata about your test sets, including the sql and diagnostic queries to be run.
+This is about metadata about your test sets, including the sql and diagnostic queries to be run. Manifests files are stored in
+``/hambot/manifests``
 
-.. code-block:: console
-
-  /hambot/manifests
 
 Handlers
 ============
