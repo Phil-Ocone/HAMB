@@ -4,7 +4,6 @@ this will be the main entry point to the program, will probably end up being a f
 
 import sys, os
 
-# from pprint import pprint
 from cocore.Logger import Logger
 from cocore.config import Config
 from codb.rdb_tools import DBInteraction
@@ -13,7 +12,7 @@ CONF = Config()
 LOG = Logger()
 
 
-class Test(object):
+class SqlComp(object):
     """
 
     """

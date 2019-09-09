@@ -1,7 +1,7 @@
 import unittest
 
 from cocore.config import Config
-from hambot.handlers.sql_comp import Test
+from hambot.sql_comp import SqlComp
 from unittest.mock import patch
 
 class TestTest(unittest.TestCase):
@@ -18,7 +18,7 @@ class TestTest(unittest.TestCase):
         test_conf['script_b'] = 'select 0'
         test_conf['pct_diff'] = True
         test_conf['heartbeat'] = True
-        self.testClass = Test(test_conf)
+        self.testClass = SqlComp(test_conf)
 
     def test_run(self):
       with patch('codb.rdb_tools.DBInteraction.fetch_sql_one', return_value = [{}]):

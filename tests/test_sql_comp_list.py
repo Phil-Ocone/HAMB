@@ -2,7 +2,7 @@ import unittest
 
 from unittest.mock import patch, MagicMock
 from cocore.config import Config
-from hambot.handlers.sql_comp_list import Test
+from hambot.sql_comp_list import SqlComp
 from codb.rdb_tools import DBInteraction
 
 class TestTest(unittest.TestCase):
@@ -19,7 +19,7 @@ class TestTest(unittest.TestCase):
         test_conf['script_b'] = 'select count(*) from sample'
         test_conf['pct_diff'] = True
         test_conf['heartbeat'] = True
-        cls.testClass = Test(test_conf)
+        cls.testClass = SqlComp(test_conf)
 
     def test_success_run(self):
         db = DBInteraction

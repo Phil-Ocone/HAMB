@@ -18,7 +18,6 @@ class HandlerEngine(object):
     """
 
     """
-
     @staticmethod
     def run(manifest, result, file_location=None):
         """
@@ -88,11 +87,10 @@ class TestEngine(object):
         stat = []
         diff = []
         for test, test_conf in test_config.items():
-            test_module = f'hambot.handlers.{test_conf["handler"].lower()}'
-            print(test_module)
-            mod = __import__(test_module, fromlist=["Test"])
+            test_module = f'hambot.{test_conf["type"].lower()}'
+            mod = __import__(test_module, fromlist=["SqlComp"])
             try:
-                class_ = getattr(mod, "Test")
+                class_ = getattr(mod, "SqlComp")
             except:
                 LOG.l_exception("module not present or issue in module import")
                 exit(1)
@@ -205,7 +203,6 @@ def get_handler_config(service, level, file_location=None):
             handler_config = obj[service][level]
         else:
             handler_config = obj["default"][level]
-    # pprint(handler_config)
     return handler_config
 
 

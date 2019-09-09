@@ -13,7 +13,7 @@ CONF = Config()
 LOG = Logger()
 
 
-class Test(object):
+class SqlComp(object):
     """
 
     """
