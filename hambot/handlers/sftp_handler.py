@@ -6,26 +6,29 @@ from cocore.Logger import Logger
 from cocore.config import Config
 from coutils.ftp_tools import FTPInteraction
 
-CONF = Config()
 LOG = Logger()
-
-SFTP = FTPInteraction(
-    protocol="sftp",
-    host=CONF["hambot_sftp"]["site"],
-    user=CONF["hambot_sftp"]["user"],
-    password=CONF["hambot_sftp"]["password"],
-)
 
 
 class Handler(object):
-    def __init__(self):
-        pass
+    def __init__(self, CONF):
+        self.host = CONF["hambot_sftp"]["site"]
+        self.user = CONF["hambot_sftp"]["user"]
+        self.password = CONF["hambot_sftp"]["password"]
+        self.environment = CONF["hambot"]["environment"]
+        self.path = CONF["hambot_sftp"]["path"]
+        self.SFTP = None
 
-    @staticmethod
-    def run(result, conf):
-        environment = CONF["hambot"]["environment"]
-        sftp_path = CONF["hambot_sftp"]["path"]
+    def setup(self):
+        self.SFTP = FTPInteraction(
+            protocol="sftp",
+            host=self.host,
+            user=self.user,
+            password=self.password,
+        )
 
+        return self
+
+    def run(self, result, conf):
         level = result["summary"]["status"]
 
         # we are hardcoded to never write a success file on failure --> probably a good idea?
@@ -33,17 +36,16 @@ class Handler(object):
             LOG.l("exiting")
             return
 
-        file_name = str(environment).lower() + "_" + conf
+        file_name = str(self.environment).lower() + "_" + conf
 
-        SFTP.conn()
-        path = sftp_path
-        SFTP.sftp_conn.chdir(path)
+        self.SFTP.conn()
+        self.SFTP.sftp_conn.chdir(self.path)
 
         LOG.l("listing files:")
-        for f in SFTP.sftp_conn.listdir():
+        for f in self.SFTP.sftp_conn.listdir():
             LOG.l(f)
             if f == file_name:
-                SFTP.sftp_conn.remove(f)
+                self.SFTP.sftp_conn.remove(f)
 
         with open(file_name, "wb") as f:
             f.write("yippee")
@@ -51,7 +53,7 @@ class Handler(object):
         sleep(10)
 
         LOG.l("uploading to SFTP")
-        SFTP.write_file(file_name, path)
+        self.SFTP.write_file(file_name, self.path)
         LOG.l("SFTP upload complete")
 
-        SFTP.quit()
+        self.SFTP.quit()

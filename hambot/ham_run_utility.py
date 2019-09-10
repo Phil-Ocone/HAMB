@@ -1,6 +1,5 @@
 from pprint import pprint
 from datetime import datetime
-import json
 import yaml
 import pandas as pd
 from cocore.Logger import Logger
@@ -50,7 +49,7 @@ class HandlerEngine(object):
             print(test_module)
             mod = __import__(test_module, fromlist=["Handler"])
             class_ = getattr(mod, "Handler")
-            class_().run(result, list(handler.values())[0])
+            class_(CONF).setup().run(result, list(handler.values())[0])
 
 
 class TestEngine(object):
@@ -94,7 +93,8 @@ class TestEngine(object):
             except:
                 LOG.l_exception("module not present or issue in module import")
                 exit(1)
-            status, detail = class_(test_conf).run()
+
+            status, detail = class_(test_conf).setup(CONF).run()
 
             if status == "success":
                 passed_cnt += 1

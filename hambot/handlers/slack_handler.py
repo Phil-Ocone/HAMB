@@ -1,22 +1,26 @@
 """
 here is where the slack handler will go
 """
-from cocore.config import Config
 from slackclient import SlackClient
-
-CONF = Config()
 
 
 class Handler(object):
-    @staticmethod
-    def run(result, conf):
 
-        slack_token = CONF["slack"]["token"]
+    def __init__(self, CONF):
+        self.slack_token = CONF["slack"]["token"]
+        self.bot_id = str(CONF["slack"]["bot_id"])
+
+        self.sc = None
+
+    def setup(self):
+        self.sc = SlackClient(self.slack_token)
+        return self
+
+    def run(self, result, conf):
         slack_channel = conf
-        bot_id = str(CONF["slack"]["bot_id"])
-        sc = SlackClient(slack_token)
+
         print(
-            sc.api_call(
+            self.sc.api_call(
                 "chat.postMessage",
                 channel=slack_channel,
                 username="hambot",

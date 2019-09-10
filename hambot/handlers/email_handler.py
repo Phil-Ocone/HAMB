@@ -15,40 +15,51 @@ class Handler(object):
     """
 
     """
+    def __init__(self, CONF):
+        self.environment = CONF["hambot"]["environment"]
+        self.aws_conf = CONF["aws"]
+        self.aws_key = self.aws_conf["aws_key"]
+        self.aws_id = self.aws_conf["aws_id"]
+        self.ses_def_sender = self.aws_conf["ses_def_sender"]
+        self.ses_region = self.aws_conf["ses_region"]
 
-    @staticmethod
-    def run(result, conf):
+        self.os = None
+
+    def setup(self):
+        self.os = os
+        return self
+
+    def run(self, result, conf):
         """
-
         :param result:
         :param conf:
         :return:
         """
         recipients = conf.split(" ")
-        environment = CONF["hambot"]["environment"]
-        if environment == "dev":
-            print(f"environment: {environment}")
+        if self.environment == "dev":
+            print(f"environment: {self.environment}")
             return
-        aws_conf = CONF["aws"]
+
         level = result["summary"]["status"]
         manifest = result["summary"]["manifest"]
         subject = (
-            str(environment).upper() + str(" Hambot %s: %s" % (level, manifest)).title()
+            str(self.environment).upper() + str(" Hambot %s: %s" % (level, manifest)).title()
         )
 
         with_attachment = os.path.exists("diagnostic_query_results.csv")
 
         if level == "success" or not with_attachment:
             json_msg = json.dumps(result, indent=4, default=json_serial)
-            Email.send_mail(
-                aws_access_key=aws_conf["aws_id"],
-                aws_secret_key=aws_conf["aws_key"],
-                aws_sender=aws_conf["ses_def_sender"],
-                aws_region=aws_conf["ses_region"],
-                to_addr=recipients,
-                subject=subject,
-                text_msg=json_msg,
-            )
+            if self.environment == "dev":
+                Email.send_mail(
+                    aws_access_key=self.aws_id,
+                    aws_secret_key=self.aws_key,
+                    aws_sender=self.ses_def_sender,
+                    aws_region=self.ses_region,
+                    to_addr=recipients,
+                    subject=subject,
+                    text_msg=json_msg,
+                )
 
         else:
             json_msg = (
@@ -56,17 +67,18 @@ class Handler(object):
                 .replace(" ", "&nbsp;")
                 .replace("\n", "<br>")
             )
-            Email.send_email_with_attachment(
-                aws_access_key=aws_conf["aws_id"],
-                aws_secret_key=aws_conf["aws_key"],
-                aws_sender=aws_conf["ses_def_sender"],
-                aws_region=aws_conf["ses_region"],
-                to_addr=recipients,
-                subject=subject,
-                body_msg=json_msg,
-                filename="diagnostic_query_results.csv",
-            )
-            os.remove("diagnostic_query_results.csv")
+            if self.environment == "dev":
+                Email.send_email_with_attachment(
+                    aws_access_key=self.aws_id,
+                    aws_secret_key=self.aws_key,
+                    aws_sender=self.ses_def_sender,
+                    aws_region=self.ses_region,
+                    to_addr=recipients,
+                    subject=subject,
+                    body_msg=json_msg,
+                    filename="diagnostic_query_results.csv",
+                )
+            self.os.remove("diagnostic_query_results.csv")
 
 
 def render_html(result):

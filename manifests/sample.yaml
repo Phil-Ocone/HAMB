@@ -1,21 +1,19 @@
-sample_leads_from_prior_day:
-    label: "compare leads from prior day should be at least 500"
+mssql_sql_comp_test:
+    label: "mssql_sql_comp_test"
     type: "sql_comp"
-    conn_a:  "sample_connection_foo"
-    script_a: "select count(id) as total from leads"
-    conn_b: "sample_connection_bar"
-    script_b: "select count(*) from leads where created_on =  (trunc(getdate() - 1))"
-    pct_diff: False
-    warning_threshold: 5000
-    failure_threshold: 1000
-
-sample_accepted_leads_from_prior_day:
-    label: "compare accepted leads from prior day should be at least 25"
-    type: "sql_comp_list"
-    conn_a:  "sample_connection_foo"
-    script_a: "select 25"
-    conn_b: "sample_connection_bar"
-    script_b: "select count(*) from leads where accepted = 1 and created_on =  (trunc(getdate() - 1))"
+    conn_a: "mssql"
+    script_a: "CREATE TABLE #TEST ([name] varchar(256)); SELECT count(*) from #TEST;"
+    conn_b: "mssql"
+    script_b: "CREATE TABLE #TEST ([name] varchar(256)); SELECT count(*) from #TEST;"
     pct_diff: True
-    warning_threshold: 50
-    failure_threshold: 25
+    warning_threshold: 1
+    failure_threshold: 101
+
+mssql_sql_comp_list_test:
+    label: "mssql_sql_comp_list_test"
+    type: "sql_comp"
+    conn_a: "mssql"
+    script_a: "CREATE TABLE #TEST ([name] varchar(256)); SELECT count(*) from #TEST;"
+    conn_b: "mssql"
+    script_b: "CREATE TABLE #TEST ([name] varchar(256)); SELECT count(*) from #TEST;"
+    pct_diff: False
