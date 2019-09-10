@@ -50,7 +50,7 @@ class Handler(object):
 
         if level == "success" or not with_attachment:
             json_msg = json.dumps(result, indent=4, default=json_serial)
-            if self.environment == "dev":
+            if self.environment != "dev":
                 Email.send_mail(
                     aws_access_key=self.aws_id,
                     aws_secret_key=self.aws_key,
@@ -67,7 +67,7 @@ class Handler(object):
                 .replace(" ", "&nbsp;")
                 .replace("\n", "<br>")
             )
-            if self.environment == "dev":
+            if self.environment != "dev":
                 Email.send_email_with_attachment(
                     aws_access_key=self.aws_id,
                     aws_secret_key=self.aws_key,
