@@ -58,7 +58,7 @@ class TestEngine(object):
     """
 
     @staticmethod
-    def run(manifest, file_location=None):
+    def run(manifest):
         """
 
         :param manifest:
@@ -122,7 +122,7 @@ class TestEngine(object):
             try:
                 engine = create_engine(CONF["hambot"]["database"])
                 idnum = uuid.uuid1()
-                insert = engine.execute(
+                engine.execute(
                     """
                 INSERT INTO public.hambot_history
                 (manifest, test, status, source_connection, "source count", target_connection, "target count", diff, warning_threshold, failure_threshold, environment, created_time, uuid)
