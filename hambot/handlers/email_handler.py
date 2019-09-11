@@ -5,10 +5,7 @@ email handler
 import json, os
 import pandas as pd
 from datetime import datetime
-from cocore.config import Config
 from coutils.email_tools import Email
-
-CONF = Config()
 
 
 class Handler(object):

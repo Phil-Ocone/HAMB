@@ -45,7 +45,8 @@ class Handler(object):
                 self.SFTP.sftp_conn.remove(f)
 
         with open(file_name, "wb") as f:
-            f.write("yippee")
+            if self.environment != "dev":
+                f.write("yippee")
 
         sleep(10)
 

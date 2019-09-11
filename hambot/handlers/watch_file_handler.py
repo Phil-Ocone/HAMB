@@ -14,7 +14,7 @@ class Handler(object):
         self.site = CONF["hambot_ftp"]["site"]
         self.user = CONF["hambot_ftp"]["user"]
         self.password = CONF["hambot_ftp"]["password"]
-        self.path = CONF["hambot_ftp"]["path"]
+        self.ftp_path = CONF["hambot_ftp"]["path"]
 
         self.ftp = None
 
@@ -44,7 +44,8 @@ class Handler(object):
                 self.ftp.delete(f)
 
         with open(file_name, "wb") as f:
-            f.write("yippee")
+            if self.environment != "dev":
+                f.write("yippee")
 
         sleep(10)
 
