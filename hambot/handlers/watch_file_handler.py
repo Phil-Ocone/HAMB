@@ -9,7 +9,6 @@ LOG = Logger()
 
 
 class Handler(object):
-
     def __init__(self, CONF):
         self.environment = CONF["hambot"]["environment"]
         self.site = CONF["hambot_ftp"]["site"]

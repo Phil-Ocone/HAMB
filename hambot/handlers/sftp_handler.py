@@ -20,10 +20,7 @@ class Handler(object):
 
     def setup(self):
         self.SFTP = FTPInteraction(
-            protocol="sftp",
-            host=self.host,
-            user=self.user,
-            password=self.password,
+            protocol="sftp", host=self.host, user=self.user, password=self.password
         )
 
         return self

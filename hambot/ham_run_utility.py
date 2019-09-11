@@ -17,6 +17,7 @@ class HandlerEngine(object):
     """
 
     """
+
     @staticmethod
     def run(manifest, result, file_location=None):
         """

@@ -15,6 +15,7 @@ class Handler(object):
     """
 
     """
+
     def __init__(self, CONF):
         self.environment = CONF["hambot"]["environment"]
         self.aws_conf = CONF["aws"]
@@ -43,7 +44,8 @@ class Handler(object):
         level = result["summary"]["status"]
         manifest = result["summary"]["manifest"]
         subject = (
-            str(self.environment).upper() + str(" Hambot %s: %s" % (level, manifest)).title()
+            str(self.environment).upper()
+            + str(" Hambot %s: %s" % (level, manifest)).title()
         )
 
         with_attachment = os.path.exists("diagnostic_query_results.csv")
