@@ -17,9 +17,7 @@ class HandlerEngine(object):
     """
 
     """
-
-    @staticmethod
-    def run(manifest, result, file_location=None):
+    def run(self, manifest, result, file_location=None):
         """
         in this step we read test_result
         import and run appropriate handler(s)
@@ -28,7 +26,7 @@ class HandlerEngine(object):
         LOG.l("\n---------------------------\nhandlers")
         level = result["summary"]["status"]
         LOG.l("handler level: " + level)
-        config = get_handler_config(manifest, level, file_location)
+        config = self.get_handler_config(manifest, level, file_location)
 
         print("\n---------------------------\noverall results for: " + manifest + "\n")
         pprint(result["START SUMMARY"])
@@ -52,14 +50,34 @@ class HandlerEngine(object):
             class_ = getattr(mod, "Handler")
             class_(CONF).setup().run(result, list(handler.values())[0])
 
+    def get_handler_config(self, service, level, file_location=None):
+        """
+
+        :param manifest:
+        :return:
+        """
+        handler_config = None
+        if not file_location:
+            file_location = "services.yaml"
+        with open(file_location, "r") as services_yaml:
+            try:
+                obj = yaml.load(services_yaml)
+            except:
+                LOG.l_exception("issue parsing yaml")
+                exit(1)
+            if service in obj:
+                handler_config = obj[service][level]
+            else:
+                handler_config = obj["default"][level]
+        return handler_config
+
 
 class TestEngine(object):
     """
     main entry point for ham_run
     """
 
-    @staticmethod
-    def run(manifest):
+    def run(self, manifest):
         """
 
         :param manifest:
@@ -82,7 +100,8 @@ class TestEngine(object):
         result["fail detail"] = []
         result["success detail"] = []
 
-        test_config = manifest_reader(manifest)
+        test_config = self.manifest_reader(manifest)
+        print('test_config', test_config)
         job = []
         stat = []
         diff = []
@@ -168,43 +187,20 @@ class TestEngine(object):
 
         return result
 
+    def manifest_reader(self, manifest, file_location=None):
+        """
 
-def manifest_reader(manifest, file_location=None):
-    """
-
-    :param manifest:
-    :return:
-    """
-    if not file_location:
-        file_location = "manifests/%s.yaml"
-    with open(file_location % manifest, "r") as checklist_yaml:
-        try:
-            test_config = yaml.load(checklist_yaml)
-        except:
-            LOG.l_exception("issue parsing yaml, please check")
-    return test_config
-
-
-def get_handler_config(service, level, file_location=None):
-    """
-
-    :param manifest:
-    :return:
-    """
-    handler_config = None
-    if not file_location:
-        file_location = "services.yaml"
-    with open(file_location, "r") as services_yaml:
-        try:
-            obj = yaml.load(services_yaml)
-        except:
-            LOG.l_exception("issue parsing yaml")
-            exit(1)
-        if service in obj:
-            handler_config = obj[service][level]
-        else:
-            handler_config = obj["default"][level]
-    return handler_config
+        :param manifest:
+        :return:
+        """
+        if not file_location:
+            file_location = "manifests/%s.yaml"
+        with open(file_location % manifest, "r") as checklist_yaml:
+            try:
+                test_config = yaml.load(checklist_yaml)
+            except:
+                LOG.l_exception("issue parsing yaml, please check")
+        return test_config
 
 
 def json_serial(data):
