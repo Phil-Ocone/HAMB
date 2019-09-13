@@ -4,24 +4,27 @@ drops watch file in ftp folder per [hambot] config section
 from time import time, sleep
 import ftplib
 from cocore.Logger import Logger
-from cocore.config import Config
 
-CONF = Config()
 LOG = Logger()
 
 
 class Handler(object):
-    def __init__(self):
-        pass
+    def __init__(self, CONF):
+        self.environment = CONF["hambot"]["environment"]
+        self.site = CONF["hambot_ftp"]["site"]
+        self.user = CONF["hambot_ftp"]["user"]
+        self.password = CONF["hambot_ftp"]["password"]
+        self.ftp_path = CONF["hambot_ftp"]["path"]
 
-    @staticmethod
-    def run(result, conf):
-        environment = CONF["hambot"]["environment"]
-        ftp_site = CONF["hambot_ftp"]["site"]
-        ftp_user = CONF["hambot_ftp"]["user"]
-        ftp_password = CONF["hambot_ftp"]["password"]
-        ftp_path = CONF["hambot_ftp"]["path"]
+        self.ftp = None
 
+    def setup(self):
+        self.ftp = ftplib.FTP(self.ftp_site)
+        self.ftp.login(self.ftp_user, self.ftp_password)
+
+        return self
+
+    def run(self, result, conf):
         level = result["summary"]["status"]
 
         # we are hardcoded to never write a success file on failure --> probably a good idea?
@@ -29,26 +32,25 @@ class Handler(object):
             LOG.l("exiting")
             return
 
-        file_name = str(environment).lower() + "_" + conf
+        file_name = str(self.environment).lower() + "_" + conf
 
-        ftp = ftplib.FTP(ftp_site)
-        ftp.login(ftp_user, ftp_password)
-        path = ftp_path
-        ftp.cwd(path)
+        path = self.ftp_path
+        self.ftp.cwd(path)
 
         LOG.l("listing files:")
-        for f in ftp.nlst():
+        for f in self.ftp.nlst():
             LOG.l(f)
             if f == file_name:
-                ftp.delete(f)
+                self.ftp.delete(f)
 
         with open(file_name, "wb") as f:
-            f.write("yippee")
+            if self.environment != "dev":
+                f.write("yippee")
 
         sleep(10)
 
         LOG.l("uploading to FTP")
-        ftp.storbinary("STOR " + file_name, open(file_name, "rb"))
+        self.ftp.storbinary("STOR " + file_name, open(file_name, "rb"))
         LOG.l("FTP upload complete")
 
-        ftp.quit()
+        self.ftp.quit()
