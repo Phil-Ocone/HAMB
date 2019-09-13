@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import MagicMock
 
-from hambot.handlers.sftp_handler import Handler
+from hambot.handlers.email_handler import Handler
 
 
 class TestEmailHandler(unittest.TestCase):
@@ -13,18 +13,15 @@ class TestEmailHandler(unittest.TestCase):
             'manifest': 'test'
         }}
         conf = {
-            "hambot": {
-                "environment": "dev"
-            },
-            "hambot_sftp": {
-                "site": "site",
-                "user": "user",
-                "password": "password",
-                "path": "path"
+            "hambot": {"environment": "dev"},
+            "aws": {
+                "aws_key": "aws_key",
+                "aws_id": "aws_id",
+                "ses_def_sender": "ses_def_sender",
+                "ses_region": "ses_region"
             }
         }
-
         test_class = Handler(CONF=conf)
-        test_class.SFTP = MagicMock()
+        test_class.os = MagicMock()
         test_class.run(result, 'email@equinox.com')
         self.assertEqual(True, conf is not None)

@@ -4,9 +4,9 @@ from unittest.mock import MagicMock
 from hambot.handlers.watch_file_handler import Handler
 
 
-class TestEmailHandler(unittest.TestCase):
+class TestWatchFileHandler(unittest.TestCase):
 
-    def test_email(self):
+    def test_watch_file_handler(self):
         print('----------------test_email')
         result = {'summary': {
             'status': 'test',

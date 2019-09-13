@@ -6,7 +6,7 @@ from hambot.handlers.slack_handler import Handler
 
 class TestSlackHandler(unittest.TestCase):
 
-    def test_email(self):
+    def test_slack(self):
         print('----------------test_email')
         result = {'summary': {
             'status': 'test',
