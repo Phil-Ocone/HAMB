@@ -15,7 +15,7 @@ class TestHamrun(unittest.TestCase):
     def test_run(self):
         test_config = {'sample_sql_comp_test': {}}
         test_config['sample_sql_comp_test']['label'] = 'this is a test'
-        test_config['sample_sql_comp_test']["type"] = "sample_sql_comp"
+        test_config['sample_sql_comp_test']["type"] = "sample_test_handler"
         test_config['sample_sql_comp_test']['conn_a'] = 'sample_connection_foo'
         test_config['sample_sql_comp_test']['conn_b'] = 'sample_connection_bar'
         test_config['sample_sql_comp_test']['script_a'] = 'select count(*) from sample'
