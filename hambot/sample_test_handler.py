@@ -1,5 +1,5 @@
 """
-this will be the main entry point to the program, will probably end up being a flask web service, with a basic UI
+this is a test handler for the unit test - test_ham_run
 """
 
 from cocore.Logger import Logger
