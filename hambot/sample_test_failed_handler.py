@@ -27,14 +27,14 @@ class SqlComp(object):
         return self
 
     def run(self):
-        status = "success"
+        status = "failure"
 
         detail = {
             "status": status,
             "test": "sample test",
             "result_a": "any result a",
             "result_b": "any result b",
-            "diff": 0,
+            "diff": 1,
             "test_conf": self.test_conf,
         }
 

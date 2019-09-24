@@ -17,6 +17,7 @@ class HandlerEngine(object):
     """
 
     """
+
     def run(self, manifest, result, file_location=None):
         """
         in this step we read test_result
@@ -101,7 +102,7 @@ class TestEngine(object):
         result["success detail"] = []
 
         test_config = self.manifest_reader(manifest)
-        print('test_config', test_config)
+        print("test_config", test_config)
         job = []
         stat = []
         diff = []
