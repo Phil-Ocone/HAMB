@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-distutils/setuptools install script.
+setuptools install script.
 """
 import os
 import re
@@ -20,16 +20,13 @@ requires = [
         'pytest==4.0.1'
 ]
 
-def get_version():
-    return "1.0.0"
-
 setup(
     name="hambot",
-    version=get_version(),
+    version=VERSION,
     author="Equinox",
     description="",
-    long_description=open('README.rst').read(),
-    url="https://bitbucket.org/equinoxfitness/hambot",
+    long_description=open("README.rst").read(),
+    url="https://github.com/equinoxfitness/hambot",
     scripts=[],
     license="TBD",
     packages=find_packages(exclude=["tests*"]),

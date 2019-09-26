@@ -25,9 +25,28 @@ class SqlComp(object):
         """
         print(f"=====>>>>> test_conf: {test_conf}")
         self.test_conf = test_conf
+        self.conn_a = None
+        self.conn_b = None
+        self.aws_access_key = None
+        self.aws_secret_key = None
 
-    @staticmethod
-    def get_script(script):
+    def setup(self, CONF):
+        print("Setting up...")
+        self.conn_a = self.test_conf["conn_a"]
+        self.conn_b = self.test_conf["conn_b"]
+
+        self.aws_access_key = CONF["general"]["aws_access_key"]
+        self.aws_secret_key = CONF["general"]["aws_secret_key"]
+
+        print(f"conn_a: {conn_a}")
+        print(f"conn_b: {conn_b}")
+
+        self.conn_a = DBInteraction(self.conn_a)
+        self.conn_b = DBInteraction(self.conn_b)
+
+        return self
+
+    def get_script(self, script):
         """
 
         :param script:
@@ -43,8 +62,8 @@ class SqlComp(object):
             """
 
             params = {
-                "aws_access_key": CONF["general"]["aws_access_key"],
-                "aws_secret_key": CONF["general"]["aws_secret_key"],
+                "aws_access_key": self.aws_access_key,
+                "aws_secret_key": self.aws_secret_key,
             }
 
             for p in params.keys():
@@ -68,32 +87,26 @@ class SqlComp(object):
         :return:
         """
         label = self.test_conf["label"]
-        conn_a = self.test_conf["conn_a"]
-        conn_b = self.test_conf["conn_b"]
+
         script_a = self.get_script(self.test_conf["script_a"])
         script_b = self.get_script(self.test_conf["script_b"])
-        warning_threshold = self.test_conf.get("warning_threshold", 1)
-        failure_threshold = self.test_conf.get("failure_threshold", 1)
-        percent_diff = self.test_conf.get("pct_diff", False)
-        heartbeat = self.test_conf.get("heartbeat", False)
+        # warning_threshold = self.test_conf.get("warning_threshold", 1)
+        # failure_threshold = self.test_conf.get("failure_threshold", 1)
+        # percent_diff = self.test_conf.get("pct_diff", False)
+        # heartbeat = self.test_conf.get("heartbeat", False)
 
         LOG.l(
             "\n---------------------------------------------------------------------\n"
             + label
             + "\n---------------------------------------------------------------------\n"
         )
-        print(f"conn_a: {conn_a}")
-        print(f"conn_b: {conn_b}")
-
-        conn_a = DBInteraction(conn_a)
-        conn_b = DBInteraction(conn_b)
 
         LOG.l("\nscript_a: \n" + script_a + "\n")
         LOG.l("script_b: \n" + script_b + "\n")
 
-        res_a = conn_a.fetch_sql_all(script_a).fetchall()
+        res_a = self.conn_a.fetch_sql_all(script_a).fetchall()
         result_a = [i[0] for i in res_a]
-        res_b = conn_b.fetch_sql_all(script_b).fetchall()
+        res_b = self.conn_b.fetch_sql_all(script_b).fetchall()
         result_b = [i[0] for i in res_b]
 
         diff = list(set(result_a).symmetric_difference(set(result_b)))

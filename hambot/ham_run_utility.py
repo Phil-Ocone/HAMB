@@ -1,6 +1,5 @@
 from pprint import pprint
 from datetime import datetime
-import json
 import yaml
 import pandas as pd
 from cocore.Logger import Logger
@@ -18,8 +17,7 @@ class HandlerEngine(object):
     """
 
     """
-    @staticmethod
-    def run(manifest, result, file_location=None):
+    def run(self, manifest, result, file_location=None):
         """
         in this step we read test_result
         import and run appropriate handler(s)
@@ -28,7 +26,7 @@ class HandlerEngine(object):
         LOG.l("\n---------------------------\nhandlers")
         level = result["summary"]["status"]
         LOG.l("handler level: " + level)
-        config = get_handler_config(manifest, level, file_location)
+        config = self.get_handler_config(manifest, level, file_location)
 
         print("\n---------------------------\noverall results for: " + manifest + "\n")
         pprint(result["START SUMMARY"])
@@ -50,7 +48,28 @@ class HandlerEngine(object):
             print(test_module)
             mod = __import__(test_module, fromlist=["Handler"])
             class_ = getattr(mod, "Handler")
-            class_().run(result, list(handler.values())[0])
+            class_(CONF).setup().run(result, list(handler.values())[0])
+
+    def get_handler_config(self, service, level, file_location=None):
+        """
+
+        :param manifest:
+        :return:
+        """
+        handler_config = None
+        if not file_location:
+            file_location = "services.yaml"
+        with open(file_location, "r") as services_yaml:
+            try:
+                obj = yaml.load(services_yaml)
+            except:
+                LOG.l_exception("issue parsing yaml")
+                exit(1)
+            if service in obj:
+                handler_config = obj[service][level]
+            else:
+                handler_config = obj["default"][level]
+        return handler_config
 
 
 class TestEngine(object):
@@ -58,8 +77,7 @@ class TestEngine(object):
     main entry point for ham_run
     """
 
-    @staticmethod
-    def run(manifest, file_location=None):
+    def run(self, manifest):
         """
 
         :param manifest:
@@ -82,7 +100,8 @@ class TestEngine(object):
         result["fail detail"] = []
         result["success detail"] = []
 
-        test_config = manifest_reader(manifest)
+        test_config = self.manifest_reader(manifest)
+        print('test_config', test_config)
         job = []
         stat = []
         diff = []
@@ -94,7 +113,8 @@ class TestEngine(object):
             except:
                 LOG.l_exception("module not present or issue in module import")
                 exit(1)
-            status, detail = class_(test_conf).run()
+
+            status, detail = class_(test_conf).setup(CONF).run()
 
             if status == "success":
                 passed_cnt += 1
@@ -122,7 +142,7 @@ class TestEngine(object):
             try:
                 engine = create_engine(CONF["hambot"]["database"])
                 idnum = uuid.uuid1()
-                insert = engine.execute(
+                engine.execute(
                     """
                 INSERT INTO public.hambot_history
                 (manifest, test, status, source_connection, "source count", target_connection, "target count", diff, warning_threshold, failure_threshold, environment, created_time, uuid)
@@ -167,43 +187,20 @@ class TestEngine(object):
 
         return result
 
+    def manifest_reader(self, manifest, file_location=None):
+        """
 
-def manifest_reader(manifest, file_location=None):
-    """
-
-    :param manifest:
-    :return:
-    """
-    if not file_location:
-        file_location = "manifests/%s.yaml"
-    with open(file_location % manifest, "r") as checklist_yaml:
-        try:
-            test_config = yaml.load(checklist_yaml)
-        except:
-            LOG.l_exception("issue parsing yaml, please check")
-    return test_config
-
-
-def get_handler_config(service, level, file_location=None):
-    """
-
-    :param manifest:
-    :return:
-    """
-    handler_config = None
-    if not file_location:
-        file_location = "services.yaml"
-    with open(file_location, "r") as services_yaml:
-        try:
-            obj = yaml.load(services_yaml)
-        except:
-            LOG.l_exception("issue parsing yaml")
-            exit(1)
-        if service in obj:
-            handler_config = obj[service][level]
-        else:
-            handler_config = obj["default"][level]
-    return handler_config
+        :param manifest:
+        :return:
+        """
+        if not file_location:
+            file_location = "manifests/%s.yaml"
+        with open(file_location % manifest, "r") as checklist_yaml:
+            try:
+                test_config = yaml.load(checklist_yaml)
+            except:
+                LOG.l_exception("issue parsing yaml, please check")
+        return test_config
 
 
 def json_serial(data):
