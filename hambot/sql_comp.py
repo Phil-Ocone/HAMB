@@ -24,19 +24,17 @@ class SqlComp(object):
         """
         print(f"=====>>>>> test_conf: {test_conf}")
         self.test_conf = test_conf
-        self.conn_a = None
-        self.conn_b = None
+        self.conn_a = self.test_conf["conn_a"]
+        self.conn_b = self.test_conf["conn_b"]
+        print(f"conn_a: {self.conn_a}")
+        print(f"conn_b: {self.conn_b}")
         self.aws_access_key = None
         self.aws_secret_key = None
 
     def setup(self, CONF):
         print("Setting up...")
-        self.conn_a = self.test_conf["conn_a"]
-        self.conn_b = self.test_conf["conn_b"]
         self.aws_access_key = CONF["general"]["aws_access_key"]
         self.aws_secret_key = CONF["general"]["aws_secret_key"]
-        print(f"conn_a: {self.conn_a}")
-        print(f"conn_b: {self.conn_b}")
 
         self.conn_a = DBInteraction(self.conn_a)
         self.conn_b = DBInteraction(self.conn_b)

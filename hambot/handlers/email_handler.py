@@ -34,9 +34,6 @@ class Handler(object):
         :return:
         """
         recipients = conf.split(" ")
-        if self.environment == "dev":
-            print(f"environment: {self.environment}")
-            return
 
         level = result["summary"]["status"]
         manifest = result["summary"]["manifest"]
