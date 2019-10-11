@@ -1,7 +1,7 @@
 import unittest
 
 from unittest.mock import MagicMock
-from hambot.sql_comp import SqlComp
+from hamb.sql_comp import SqlComp
 
 
 class TestSqlComp(unittest.TestCase):

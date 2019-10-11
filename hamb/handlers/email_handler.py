@@ -2,7 +2,8 @@
 email handler
 """
 
-import json, os
+import os
+import json
 import pandas as pd
 from datetime import datetime
 from coutils.email_tools import Email
@@ -82,11 +83,17 @@ def render_html(result):
         builds html message
         :return:
         """
-    html = """<table border="1" cellpadding="0" cellspacing="0" bordercolor=#BLACK>"""
+    html = """
+<table border="1" cellpadding="0" cellspacing="0" bordercolor=#BLACK>
+"""
     html += "<tr> <td> Jobs     Status </td> </tr>"
     # Make <tr>-pairs, then join them.
     # html += "\n".join(
-    # map(lambda x: """<td style="width: 175px;">""" + str(result) + "</td>", 1))
+    # map(
+    #     lambda x: """
+    #     <td style="width: 175px;">
+    #     """ + str(result) + "</td>", 1)
+    # )
     html += "<tr> <td>"
     html += str(result)
     html += "</td> </tr>"

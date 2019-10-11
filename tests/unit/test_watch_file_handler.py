@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import MagicMock
 
-from hambot.handlers.watch_file_handler import Handler
+from hamb.handlers.watch_file_handler import Handler
 
 
 class TestWatchFileHandler(unittest.TestCase):

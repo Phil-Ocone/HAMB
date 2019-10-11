@@ -2,7 +2,7 @@ import datetime
 import unittest
 from unittest.mock import MagicMock
 
-from hambot.handlers.email_handler import Handler, render_html, json_serial
+from hamb.handlers.email_handler import Handler, render_html, json_serial
 
 
 class TestEmailHandler(unittest.TestCase):
@@ -27,7 +27,9 @@ class TestEmailHandler(unittest.TestCase):
         html = render_html("hello")
         self.assertEqual(
             html,
-            '<table border="1" cellpadding="0" cellspacing="0" bordercolor=#BLACK><tr> <td> Jobs     Status </td> </tr><tr> <td>hello</td> </tr></table> <br><br><i>]</i>',
+            '<table border="1" cellpadding="0" cellspacing="0" bordercolor=#BLACK><tr> \
+            <td> Jobs  Status </td> </tr><tr> <td>hello</td> \
+            </tr></table> <br> <br><i>]</i>',
         )
 
     def test_serial_json(self):

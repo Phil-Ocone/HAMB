@@ -5,7 +5,7 @@ setuptools install script.
 """
 from setuptools import setup, find_packages
 
-from hambot import VERSION
+from hamb import VERSION
 
 requires = [
     "datacoco==0.1",
@@ -17,12 +17,12 @@ requires = [
 ]
 
 setup(
-    name="hambot",
+    name="hamb",
     version=VERSION,
     author="Equinox",
     description="",
     long_description=open("README.rst").read(),
-    url="https://github.com/equinoxfitness/hambot",
+    url="https://github.com/equinoxfitness/HAMB",
     scripts=[],
     license="TBD",
     packages=find_packages(exclude=["tests*"]),
