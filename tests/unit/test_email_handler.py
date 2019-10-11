@@ -1,4 +1,5 @@
 import datetime
+import re
 import unittest
 from unittest.mock import MagicMock
 
@@ -24,13 +25,10 @@ class TestEmailHandler(unittest.TestCase):
         self.assertEqual(True, conf is not None)
 
     def test_render_html(self):
-        html = render_html("hello")
-        self.assertEqual(
-            html,
-            '<table border="1" cellpadding="0" cellspacing="0" bordercolor=#BLACK><tr> \
-            <td> Jobs  Status </td> </tr><tr> <td>hello</td> \
-            </tr></table> <br> <br><i>]</i>',
-        )
+        result = "hello"
+        html = render_html(result)
+        match = re.search(f"<td> {result} </td>", html)
+        self.assertEqual(match.group(), f"<td> {result} </td>")
 
     def test_serial_json(self):
         now = datetime.datetime.now()
