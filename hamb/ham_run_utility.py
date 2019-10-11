@@ -5,7 +5,7 @@ import pandas as pd
 from cocore.Logger import Logger
 from cocore.config import Config
 from collections import OrderedDict
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine
 import uuid
 
 CONF = Config()
@@ -29,7 +29,11 @@ class HandlerEngine(object):
         LOG.l("handler level: " + level)
         config = self.get_handler_config(manifest, level, file_location)
 
-        print("\n---------------------------\noverall results for: " + manifest + "\n")
+        print(
+            "\n---------------------------\noverall results for: "
+            + manifest
+            + "\n"
+        )
         pprint(result["START SUMMARY"])
         print("SUMMARY:")
         pprint(result["summary"])
@@ -45,7 +49,7 @@ class HandlerEngine(object):
         for handler in config:
             print(f"handler: {handler}")
             LOG.l("executing handler: " + list(handler.keys())[0])
-            test_module = f"hambot.handlers.{list(handler.keys())[0]}"
+            test_module = f"hamb.handlers.{list(handler.keys())[0]}"
             print(test_module)
             mod = __import__(test_module, fromlist=["Handler"])
             class_ = getattr(mod, "Handler")
@@ -63,8 +67,8 @@ class HandlerEngine(object):
         with open(file_location, "r") as services_yaml:
             try:
                 obj = yaml.load(services_yaml)
-            except:
-                LOG.l_exception("issue parsing yaml")
+            except Exception as e:
+                LOG.l_exception(f"issue parsing yaml: {e}")
                 exit(1)
             if service in obj:
                 handler_config = obj[service][level]
@@ -89,12 +93,26 @@ class TestEngine(object):
         warning_cnt = 0
         failed_cnt = 0
         # this will be the core data model
-        # result= {'START SUMMARY': [], 'summary': {}, 'new output': {}, 'success detail': [], 'fail detail': []}
+        # result= {
+        #     'START SUMMARY': [],
+        #     'summary': {},
+        #     'new output': {},
+        #     'success detail': [],
+        #     'fail detail': []
+        # }
 
         result = OrderedDict()
         result["START SUMMARY"] = (
-            "***********************************************************************************************************************************************************************************"
-            "***********************************************************************************************************************************************************************************"
+            "**************************************\
+            ***************************************\
+            ***************************************\
+            ***************************************\
+            ************************"
+            "**************************************\
+            ***************************************\
+            ***************************************\
+            ***************************************\
+            ************************"
         )
         result["table"] = {}
         result["summary"] = {}
@@ -107,12 +125,14 @@ class TestEngine(object):
         stat = []
         diff = []
         for test, test_conf in test_config.items():
-            test_module = f'hambot.{test_conf["type"].lower()}'
+            test_module = f'hamb.{test_conf["type"].lower()}'
             mod = __import__(test_module, fromlist=["SqlComp"])
             try:
                 class_ = getattr(mod, "SqlComp")
-            except:
-                LOG.l_exception("module not present or issue in module import")
+            except Exception as e:
+                LOG.l_exception(
+                    f"module not present or issue in module import: {e}"
+                )
                 exit(1)
 
             status, detail = class_(test_conf).setup(CONF).run()
@@ -141,12 +161,14 @@ class TestEngine(object):
 
             # add to database
             try:
-                engine = create_engine(CONF["hambot"]["database"])
+                engine = create_engine(CONF["hamb"]["database"])
                 idnum = uuid.uuid1()
                 engine.execute(
                     """
-                INSERT INTO public.hambot_history
-                (manifest, test, status, source_connection, "source count", target_connection, "target count", diff, warning_threshold, failure_threshold, environment, created_time, uuid)
+                INSERT INTO public.hamb_history
+                (manifest, test, status, source_connection, "source count",
+                target_connection, "target count", diff, warning_threshold,
+                failure_threshold, environment, created_time, uuid)
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
                     (
                         manifest,
@@ -159,13 +181,13 @@ class TestEngine(object):
                         detail["diff"],
                         test_conf["warning_threshold"],
                         test_conf["failure_threshold"],
-                        CONF["hambot"]["environment"],
+                        CONF["hamb"]["environment"],
                         datetime.now(),
                         idnum,
                     ),
                 )
-            except:
-                print("cannot write results to database")
+            except Exception as e:
+                print(f"cannot write results to database: {e}")
                 pass
 
         if failed_cnt > 0:
@@ -184,7 +206,9 @@ class TestEngine(object):
             "manifest": manifest,
         }
         table = {"Job": job, "Status": stat, "Diff": diff}
-        result["table"] = pd.DataFrame(data=table, columns=("Job", "Status", "Diff"))
+        result["table"] = pd.DataFrame(
+            data=table, columns=("Job", "Status", "Diff")
+        )
 
         return result
 
@@ -199,8 +223,8 @@ class TestEngine(object):
         with open(file_location % manifest, "r") as checklist_yaml:
             try:
                 test_config = yaml.load(checklist_yaml)
-            except:
-                LOG.l_exception("issue parsing yaml, please check")
+            except Exception as e:
+                LOG.l_exception(f"issue parsing yaml, please check: {e}")
         return test_config
 
 

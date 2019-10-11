@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import MagicMock
 
-from hambot.handlers.sftp_handler import Handler
+from hamb.handlers.sftp_handler import Handler
 
 
 class TestSFTPHandler(unittest.TestCase):

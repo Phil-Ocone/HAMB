@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import MagicMock
 
-from hambot.handlers.slack_handler import Handler
+from hamb.handlers.slack_handler import Handler
 
 
 class TestSlackHandler(unittest.TestCase):

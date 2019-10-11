@@ -1,8 +1,6 @@
 """
-this will be the main entry point to the program, will probably end up being a flask web service, with a basic UI
+this will be the main entry point to the program
 """
-
-import sys, os
 
 from cocore.Logger import Logger
 from cocore.config import Config
@@ -93,9 +91,13 @@ class SqlComp(object):
         # heartbeat = self.test_conf.get("heartbeat", False)
 
         LOG.l(
-            "\n---------------------------------------------------------------------\n"
+            "\n----------------------\
+            -------------------------\
+            ----------------------\n"
             + label
-            + "\n---------------------------------------------------------------------\n"
+            + "\n--------------------\
+            -------------------------\
+            ------------------------\n"
         )
 
         LOG.l("\nscript_a: \n" + script_a + "\n")

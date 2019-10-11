@@ -1,8 +1,9 @@
 """
-this will be the main entry point to the program, will probably end up being a flask web service, with a basic UI
+this will be the main entry point to the program
 """
 
-import sys, os, csv
+import os
+import csv
 
 # from pprint import pprint
 from cocore.Logger import Logger
@@ -106,9 +107,13 @@ class SqlComp(object):
             diagnostic_query_b = self.get_script(d_query_b)
 
         LOG.l(
-            "\n---------------------------------------------------------------------\n"
+            "\n-----------------------\
+            --------------------------\
+            --------------------\n"
             + label
-            + "\n---------------------------------------------------------------------\n"
+            + "\n---------------------\
+            --------------------------\
+            --------------------\n"
         )
 
         LOG.l("script_a: \n" + script_a + "\n")

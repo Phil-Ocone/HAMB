@@ -1,7 +1,7 @@
 """
 drops watch file in ftp folder per [hambot] config section
 """
-from time import time, sleep
+from time import sleep
 import ftplib
 from cocore.Logger import Logger
 
@@ -27,7 +27,6 @@ class Handler(object):
     def run(self, result, conf):
         level = result["summary"]["status"]
 
-        # we are hardcoded to never write a success file on failure --> probably a good idea?
         if level == "failure":
             LOG.l("exiting")
             return

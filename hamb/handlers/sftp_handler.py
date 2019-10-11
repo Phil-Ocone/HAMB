@@ -1,9 +1,8 @@
 """
 drops watch file in sftp folder per [hambot] config section
 """
-from time import time, sleep
+from time import sleep
 from cocore.Logger import Logger
-from cocore.config import Config
 from coutils.ftp_tools import FTPInteraction
 
 LOG = Logger()
@@ -20,7 +19,10 @@ class Handler(object):
 
     def setup(self):
         self.SFTP = FTPInteraction(
-            protocol="sftp", host=self.host, user=self.user, password=self.password
+            protocol="sftp",
+            host=self.host,
+            user=self.user,
+            password=self.password,
         )
 
         return self
@@ -28,7 +30,6 @@ class Handler(object):
     def run(self, result, conf):
         level = result["summary"]["status"]
 
-        # we are hardcoded to never write a success file on failure --> probably a good idea?
         if level == "failure":
             LOG.l("exiting")
             return
