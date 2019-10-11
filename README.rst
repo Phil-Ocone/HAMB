@@ -1,12 +1,14 @@
-***************************
-Getting started with Hambot
-***************************
+********************************
+Health and Monitoring Bot (HAMB)
+********************************
 
-.. image:: https://img.shields.io/pypi/v/hambot.svg
-   :target: https://pypi.python.org/pypi/hambot
+Getting started with HAMB
+
+.. image:: https://img.shields.io/pypi/v/hamb.svg
+   :target: https://pypi.python.org/pypi/hamb
    :alt: Pypi Version
-.. image:: https://travis-ci.org/readthedocs/hambot.svg?branch=master
-   :target: https://travis-ci.org/readthedocs/hambot
+.. image:: https://travis-ci.org/readthedocs/hamb.svg?branch=master
+   :target: https://travis-ci.org/readthedocs/hamb
    :alt: Build Status
 .. image:: https://readthedocs.org/projects/sphinx-rtd-theme/badge/?version=latest
   :target: http://sphinx-rtd-theme.readthedocs.io/en/latest/?badge=latest
@@ -29,12 +31,12 @@ Save credentials to ``etl.cfg`` file locally in project directory. See ``sample.
 Manifests
 ============
 This is about metadata about your test sets, including the sql and diagnostic queries to be run. Manifests files are stored in
-``/hambot/manifests``
+``/hamb/manifests``
 
 
 Handlers
 ============
-Test results are printed, but handlers are available for other means of notification. See ``/hambot/handlers/``.
+Test results are printed, but handlers are available for other means of notification. See ``/hamb/handlers/``.
 
 .. code-block:: console
 
@@ -88,7 +90,7 @@ Services
 Execution walkthru
 ===================
 
-* Hambot will be executed from command line for a given manifest (test set): ``python ham_run.py -m <manifest_file_name>``
+* HAMB will be executed from command line for a given manifest (test set): ``python ham_run.py -m <manifest_file_name>``
 * It will read the tests from the corresponding manifest file into a Python object
 * It will then loop through each test
 * For each test it will execute the appropriate plugin
@@ -110,11 +112,16 @@ To run the testing suite, the following commands are required:
 
 Documentation
 =============
-Hambot documentation is powered by `Sphinx <https://www.sphinx-doc.org/en/master/>`_, a tool that makes documentation easy.
+HAMB documentation is powered by `Sphinx <https://www.sphinx-doc.org/en/master/>`_, a tool that makes documentation easy.
 
-To build docs locally, run ``make html``.
+To build docs locally
 
-To see hambot documentation, open ``/docs/_build/html/index.html``.
+.. code-block:: console
+
+  cd docs
+  make html
+
+To see HAMB documentation, open ``/docs/_build/html/index.html``.
 
 If you want to make changes, edit ``README.rst`` and build docs again.
 
