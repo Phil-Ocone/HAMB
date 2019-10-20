@@ -55,7 +55,8 @@ class HandlerEngine(object):
             class_ = getattr(mod, "Handler")
             class_(CONF).setup().run(result, list(handler.values())[0])
 
-    def get_handler_config(self, service, level, file_location=None):
+    @staticmethod
+    def get_handler_config(service, level, file_location=None):
         """
 
         :param manifest:
@@ -66,7 +67,7 @@ class HandlerEngine(object):
             file_location = "services.yaml"
         with open(file_location, "r") as services_yaml:
             try:
-                obj = yaml.load(services_yaml)
+                obj = yaml.safe_load(services_yaml)
             except Exception as e:
                 LOG.l_exception(f"issue parsing yaml: {e}")
                 exit(1)
@@ -188,7 +189,6 @@ class TestEngine(object):
                 )
             except Exception as e:
                 print(f"cannot write results to database: {e}")
-                pass
 
         if failed_cnt > 0:
             overall_status = "failure"
@@ -212,7 +212,8 @@ class TestEngine(object):
 
         return result
 
-    def manifest_reader(self, manifest, file_location=None):
+    @staticmethod
+    def manifest_reader(manifest, file_location=None):
         """
 
         :param manifest:
@@ -222,7 +223,7 @@ class TestEngine(object):
             file_location = "manifests/%s.yaml"
         with open(file_location % manifest, "r") as checklist_yaml:
             try:
-                test_config = yaml.load(checklist_yaml)
+                test_config = yaml.safe_load(checklist_yaml)
             except Exception as e:
                 LOG.l_exception(f"issue parsing yaml, please check: {e}")
         return test_config

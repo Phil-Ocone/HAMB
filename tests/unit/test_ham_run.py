@@ -61,5 +61,6 @@ class TestHamrun(unittest.TestCase):
             result = self.TestEngine.run("sample")
             self.HandlerEngine.run("sample", result)
 
-    def test_json_serial(self):
+    @staticmethod
+    def test_json_serial():
         json_serial(datetime.datetime(2015, 2, 1, 15, 16, 17, 345))
