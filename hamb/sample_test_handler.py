@@ -22,7 +22,7 @@ class SqlComp(object):
 
     def setup(self, CONF):
         print("Setting up...")
-        pass
+        #pass
 
         return self
 
