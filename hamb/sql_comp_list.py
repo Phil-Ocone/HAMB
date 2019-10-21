@@ -3,10 +3,8 @@ this will be the main entry point to the program
 """
 
 from cocore.Logger import Logger
-from cocore.config import Config
 from codb.rdb_tools import DBInteraction
 
-CONF = Config()
 LOG = Logger()
 
 
