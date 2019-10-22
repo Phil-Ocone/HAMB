@@ -3,10 +3,8 @@ this will be the main entry point to the program
 """
 
 from cocore.Logger import Logger
-from cocore.config import Config
 from codb.rdb_tools import DBInteraction
 
-CONF = Config()
 LOG = Logger()
 
 
@@ -30,14 +28,10 @@ class SqlComp(object):
         self.aws_access_key = None
         self.aws_secret_key = None
 
-    def setup(self, CONF):
+    def setup(self, config):
         print("Setting up...")
-
-        self.aws_access_key = CONF["general"]["aws_access_key"]
-        self.aws_secret_key = CONF["general"]["aws_secret_key"]
-
-        self.conn_a = DBInteraction(self.conn_a)
-        self.conn_b = DBInteraction(self.conn_b)
+        self.conn_a = DBInteraction(config=config[self.conn_a])
+        self.conn_b = DBInteraction(config=config[self.conn_b])
 
         return self
 
