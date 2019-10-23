@@ -9,7 +9,7 @@ class TestSlackHandler(unittest.TestCase):
         print("----------------test_email")
         result = {"summary": {"status": "test", "manifest": "test"}}
         conf = {
-            "hambot": {"environment": "dev"},
+            "hamb": {"environment": "dev"},
             "slack": {"token": "token", "bot_id": "bot_id"},
         }
         test_class = Handler(CONF=conf)

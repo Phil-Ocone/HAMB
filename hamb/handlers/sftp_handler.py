@@ -1,5 +1,5 @@
 """
-drops watch file in sftp folder per [hambot] config section
+drops watch file in sftp folder per [hamb] config section
 """
 from time import sleep
 from cocore.Logger import Logger
@@ -10,11 +10,11 @@ LOG = Logger()
 
 class Handler(object):
     def __init__(self, CONF):
-        self.host = CONF["hambot_sftp"]["site"]
-        self.user = CONF["hambot_sftp"]["user"]
-        self.password = CONF["hambot_sftp"]["password"]
-        self.environment = CONF["hambot"]["environment"]
-        self.path = CONF["hambot_sftp"]["path"]
+        self.host = CONF["hamb_sftp"]["site"]
+        self.user = CONF["hamb_sftp"]["user"]
+        self.password = CONF["hamb_sftp"]["password"]
+        self.environment = CONF["hamb"]["environment"]
+        self.path = CONF["hamb_sftp"]["path"]
         self.SFTP = None
 
     def setup(self):

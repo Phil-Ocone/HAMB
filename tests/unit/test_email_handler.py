@@ -11,7 +11,7 @@ class TestEmailHandler(unittest.TestCase):
         print("----------------test_email")
         result = {"summary": {"status": "test", "manifest": "test"}}
         conf = {
-            "hambot": {"environment": "dev"},
+            "hamb": {"environment": "dev"},
             "aws": {
                 "aws_key": "aws_key",
                 "aws_id": "aws_id",

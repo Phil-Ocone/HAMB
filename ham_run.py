@@ -5,7 +5,7 @@ will probably end up being a flask web service, with a basic UI
 
 import argparse
 
-from hambot.ham_run_utility import TestEngine, HandlerEngine
+from hamb.ham_run_utility import TestEngine, HandlerEngine
 
 if __name__ == "__main__":
 
