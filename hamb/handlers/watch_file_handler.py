@@ -1,5 +1,5 @@
 """
-drops watch file in ftp folder per [hambot] config section
+drops watch file in ftp folder per [hamb] config section
 """
 from time import sleep
 import ftplib
@@ -10,11 +10,11 @@ LOG = Logger()
 
 class Handler(object):
     def __init__(self, CONF):
-        self.environment = CONF["hambot"]["environment"]
-        self.site = CONF["hambot_ftp"]["site"]
-        self.user = CONF["hambot_ftp"]["user"]
-        self.password = CONF["hambot_ftp"]["password"]
-        self.ftp_path = CONF["hambot_ftp"]["path"]
+        self.environment = CONF["hamb"]["environment"]
+        self.site = CONF["hamb_ftp"]["site"]
+        self.user = CONF["hamb_ftp"]["user"]
+        self.password = CONF["hamb_ftp"]["password"]
+        self.ftp_path = CONF["hamb_ftp"]["path"]
 
         self.ftp = None
 

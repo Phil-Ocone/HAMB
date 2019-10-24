@@ -9,8 +9,8 @@ class TestSFTPHandler(unittest.TestCase):
         print("----------------test_sftp")
         result = {"summary": {"status": "test", "manifest": "test"}}
         conf = {
-            "hambot": {"environment": "dev"},
-            "hambot_sftp": {
+            "hamb": {"environment": "dev"},
+            "hamb_sftp": {
                 "site": "site",
                 "user": "user",
                 "password": "password",
@@ -27,8 +27,8 @@ class TestSFTPHandler(unittest.TestCase):
         print("----------------test_sftp_failure")
         result = {"summary": {"status": "failure", "manifest": "test"}}
         conf = {
-            "hambot": {"environment": "dev"},
-            "hambot_sftp": {
+            "hamb": {"environment": "dev"},
+            "hamb_sftp": {
                 "site": "site",
                 "user": "user",
                 "password": "password",

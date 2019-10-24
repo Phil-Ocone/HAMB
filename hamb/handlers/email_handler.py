@@ -15,7 +15,7 @@ class Handler(object):
     """
 
     def __init__(self, CONF):
-        self.environment = CONF["hambot"]["environment"]
+        self.environment = CONF["hamb"]["environment"]
         self.aws_conf = CONF["aws"]
         self.aws_key = self.aws_conf["aws_key"]
         self.aws_id = self.aws_conf["aws_id"]

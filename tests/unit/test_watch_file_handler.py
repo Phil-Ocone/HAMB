@@ -9,8 +9,8 @@ class TestWatchFileHandler(unittest.TestCase):
         print("----------------test_watch_file_handler")
         result = {"summary": {"status": "test", "manifest": "test"}}
         conf = {
-            "hambot": {"environment": "dev"},
-            "hambot_ftp": {
+            "hamb": {"environment": "dev"},
+            "hamb_ftp": {
                 "site": "site",
                 "user": "user",
                 "password": "password",
@@ -27,8 +27,8 @@ class TestWatchFileHandler(unittest.TestCase):
         print("----------------test_watch_file_handler_failure")
         result = {"summary": {"status": "failure", "manifest": "test"}}
         conf = {
-            "hambot": {"environment": "dev"},
-            "hambot_ftp": {
+            "hamb": {"environment": "dev"},
+            "hamb_ftp": {
                 "site": "site",
                 "user": "user",
                 "password": "password",

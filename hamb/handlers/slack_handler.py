@@ -22,7 +22,7 @@ class Handler(object):
             self.sc.api_call(
                 "chat.postMessage",
                 channel=slack_channel,
-                username="hambot",
+                username="hamb",
                 as_user="true",
                 text=result["summary"],
             )
