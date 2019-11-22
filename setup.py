@@ -8,7 +8,7 @@ from setuptools import setup, find_packages
 from hamb import VERSION
 
 requires = [
-    "datacoco==0.1",
+    "datacoco>=0.1.3",
     "pyyaml==3.13",
     "slackclient==1.3.0",
     "redis==2.10.6",
