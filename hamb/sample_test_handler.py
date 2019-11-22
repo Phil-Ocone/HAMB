@@ -7,7 +7,7 @@ from cocore.Logger import Logger
 LOG = Logger()
 
 
-class SqlComp(object):
+class SqlCompare(object):
     """
 
     """

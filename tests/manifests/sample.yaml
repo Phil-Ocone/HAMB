@@ -1,6 +1,6 @@
 mssql_sql_comp_test:
-    label: "mssql_sql_comp_test"
-    type: "sql_comp"
+    label: "mssql_sql_compare_test"
+    type: "sql_compare"
     conn_a: "mssql"
     script_a: "CREATE TABLE #TEST ([name] varchar(256)); SELECT count(*) from #TEST;"
     conn_b: "mssql"
@@ -10,8 +10,8 @@ mssql_sql_comp_test:
     failure_threshold: 101
 
 mssql_sql_comp_list_test:
-    label: "mssql_sql_comp_list_test"
-    type: "sql_comp"
+    label: "mssql_sql_compare_list_test"
+    type: "sql_compare"
     conn_a: "mssql"
     script_a: "CREATE TABLE #TEST ([name] varchar(256)); SELECT count(*) from #TEST;"
     conn_b: "mssql"
