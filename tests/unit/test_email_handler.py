@@ -3,7 +3,7 @@ import re
 import unittest
 from unittest.mock import MagicMock
 
-from hamb.handlers.email_handler import Handler, render_html, json_serial
+from hamb.handlers.email_handler import Handler, render_html, json_serializer
 
 
 class TestEmailHandler(unittest.TestCase):
@@ -32,5 +32,5 @@ class TestEmailHandler(unittest.TestCase):
 
     def test_serial_json(self):
         now = datetime.datetime.now()
-        result = json_serial(now)
+        result = json_serializer(now)
         self.assertEqual(result, now.isoformat())
