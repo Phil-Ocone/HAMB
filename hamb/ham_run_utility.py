@@ -127,9 +127,9 @@ class TestEngine(object):
         diff = []
         for test, test_conf in test_config.items():
             test_module = f'hamb.{test_conf["type"].lower()}'
-            mod = __import__(test_module, fromlist=["SqlComp"])
+            mod = __import__(test_module, fromlist=["SqlCompare"])
             try:
-                class_ = getattr(mod, "SqlComp")
+                class_ = getattr(mod, "SqlCompare")
             except Exception as e:
                 LOG.l_exception(
                     f"module not present or issue in module import: {e}"
@@ -229,7 +229,7 @@ class TestEngine(object):
         return test_config
 
 
-def json_serial(data):
+def json_serializer(data):
     """
     JSON serializer for objects not serializable by default json code"
     :param obj:

@@ -1,10 +1,10 @@
 import unittest
 
 from unittest.mock import MagicMock
-from hamb.sql_comp import SqlComp
+from hamb.sql_compare import SqlCompare
 
 
-class TestSqlComp(unittest.TestCase):
+class TestSqlCompare(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         pass
@@ -18,7 +18,7 @@ class TestSqlComp(unittest.TestCase):
         test_conf["script_b"] = "select count(*) from sample"
         test_conf["pct_diff"] = True
         test_conf["heartbeat"] = True
-        self.testClass = SqlComp(test_conf)
+        self.testClass = SqlCompare(test_conf)
 
         self.testClass.conn_a = MagicMock()
         self.testClass.conn_b = MagicMock()

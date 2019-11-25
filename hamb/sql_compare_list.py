@@ -8,7 +8,7 @@ from codb.rdb_tools import DBInteraction
 LOG = Logger()
 
 
-class SqlComp(object):
+class SqlCompare(object):
     """
 
     """

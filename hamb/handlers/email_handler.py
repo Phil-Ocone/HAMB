@@ -46,7 +46,7 @@ class Handler(object):
         with_attachment = os.path.exists("diagnostic_query_results.csv")
 
         if level == "success" or not with_attachment:
-            json_msg = json.dumps(result, indent=4, default=json_serial)
+            json_msg = json.dumps(result, indent=4, default=json_serializer)
             if self.environment != "dev":
                 Email.send_mail(
                     aws_access_key=self.aws_id,
@@ -60,7 +60,7 @@ class Handler(object):
 
         else:
             json_msg = (
-                json.dumps(result, indent=4, default=json_serial)
+                json.dumps(result, indent=4, default=json_serializer)
                 .replace(" ", "&nbsp;")
                 .replace("\n", "<br>")
             )
@@ -99,7 +99,7 @@ def render_html(result):
     return html
 
 
-def json_serial(data):
+def json_serializer(data):
     """
     JSON serializer for objects not serializable by default json code"
     :param obj:

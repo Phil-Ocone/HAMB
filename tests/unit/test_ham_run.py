@@ -2,7 +2,7 @@ import unittest
 import datetime
 from unittest.mock import patch
 
-from hamb.ham_run_utility import json_serial, TestEngine, HandlerEngine
+from hamb.ham_run_utility import json_serializer, TestEngine, HandlerEngine
 
 
 class TestHamrun(unittest.TestCase):
@@ -62,5 +62,5 @@ class TestHamrun(unittest.TestCase):
             self.HandlerEngine.run("sample", result)
 
     @staticmethod
-    def test_json_serial():
-        json_serial(datetime.datetime(2015, 2, 1, 15, 16, 17, 345))
+    def test_json_serializer():
+        json_serializer(datetime.datetime(2015, 2, 1, 15, 16, 17, 345))
