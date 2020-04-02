@@ -17,8 +17,7 @@ requires = [
     "pyyaml>=4.2b1",
     "slackclient==1.3.0",
     "redis==2.10.6",
-    "json2html==1.0.0",
-    "pytest==4.0.1",
+    "pandas==0.24.2"
 ]
 
 def get_version():

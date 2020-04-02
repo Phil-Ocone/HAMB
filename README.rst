@@ -58,7 +58,7 @@ Examples
 ============
 
 Compare two lists wherein it succeeds when the lists are the same and fails when different.
-Try running ``hamb -m <manifest_file_name>`` or ``python ham_run.py -m <manifest_file_name>``
+Try running ``hamb -m <manifest_file_name>`` or ``python -m hamb.module -m <manifest_file_name>``
 
 .. code-block:: console
 
