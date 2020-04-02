@@ -2,7 +2,7 @@
 this is a test handler for the unit test - test_ham_run
 """
 
-from cocore.Logger import Logger
+from datacoco_core import Logger
 
 LOG = Logger()
 
@@ -22,7 +22,7 @@ class SqlCompare(object):
 
     def setup(self, CONF):
         print("Setting up...")
-        #pass
+        # pass
 
         return self
 

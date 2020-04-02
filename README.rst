@@ -26,6 +26,10 @@ It is recommended to use the steps below to set up a virtual environment for dev
   source <virtual env name>/bin/activate
   pip install -r requirements.txt
 
+  or
+
+  pip install hamb
+
 Save credentials to ``etl.cfg`` file locally in project directory. See ``sample.etl.cfg`` file provided in root directory.
 
 Manifests
@@ -46,13 +50,15 @@ Test results are printed, but handlers are available for other means of notifica
   sql_compo_list
   sql_comp
   watch_file_handler
+  jenkins_handler
+  sns_handler
 
 
 Examples
 ============
 
 Compare two lists wherein it succeeds when the lists are the same and fails when different.
-Try running ``python ham_run.py -m <manifest_file_name>``
+Try running ``hamb -m <manifest_file_name>`` or ``python ham_run.py -m <manifest_file_name>``
 
 .. code-block:: console
 

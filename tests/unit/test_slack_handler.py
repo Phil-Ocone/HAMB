@@ -9,10 +9,10 @@ class TestSlackHandler(unittest.TestCase):
         print("----------------test_email")
         result = {"summary": {"status": "test", "manifest": "test"}}
         conf = {
-            "hamb": {"environment": "dev"},
+            "hambot": {"environment": "dev"},
             "slack": {"token": "token", "bot_id": "bot_id"},
         }
-        test_class = Handler(CONF=conf)
+        test_class = Handler(config=conf)
         test_class.sc = MagicMock()
         test_class.run(result, "test slack")
         self.assertEqual(True, conf is not None)

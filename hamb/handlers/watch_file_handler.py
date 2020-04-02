@@ -3,18 +3,18 @@ drops watch file in ftp folder per [hamb] config section
 """
 from time import sleep
 import ftplib
-from cocore.Logger import Logger
+from datacoco_core import Logger
 
 LOG = Logger()
 
 
 class Handler(object):
-    def __init__(self, CONF):
-        self.environment = CONF["hamb"]["environment"]
-        self.site = CONF["hamb_ftp"]["site"]
-        self.user = CONF["hamb_ftp"]["user"]
-        self.password = CONF["hamb_ftp"]["password"]
-        self.ftp_path = CONF["hamb_ftp"]["path"]
+    def __init__(self, config):
+        self.environment = config["hambot"]["environment"]
+        self.site = config["hambot_ftp"]["site"]
+        self.user = config["hambot_ftp"]["user"]
+        self.password = config["hambot_ftp"]["password"]
+        self.ftp_path = config["hambot_ftp"]["path"]
 
         self.ftp = None
 

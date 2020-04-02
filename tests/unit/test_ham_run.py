@@ -2,7 +2,7 @@ import unittest
 import datetime
 from unittest.mock import patch
 
-from hamb.ham_run_utility import json_serializer, TestEngine, HandlerEngine
+from hamb.ham_run_utility import TestEngine, HandlerEngine
 
 
 class TestHamrun(unittest.TestCase):
@@ -32,8 +32,8 @@ class TestHamrun(unittest.TestCase):
             "hamb.ham_run_utility.HandlerEngine.get_handler_config",
             return_value={},
         ):
-            result = self.TestEngine.run("sample")
-            self.HandlerEngine.run("sample", result)
+            result = self.TestEngine.run(manifest="sample", config={}, params=None)
+            self.HandlerEngine.run(manifest="sample", config={}, result=result)
 
     def test_run_failure(self):
         test_config = {"sample_sql_comp_test": {}}
@@ -58,9 +58,5 @@ class TestHamrun(unittest.TestCase):
             "hamb.ham_run_utility.HandlerEngine.get_handler_config",
             return_value={},
         ):
-            result = self.TestEngine.run("sample")
-            self.HandlerEngine.run("sample", result)
-
-    @staticmethod
-    def test_json_serializer():
-        json_serializer(datetime.datetime(2015, 2, 1, 15, 16, 17, 345))
+            result = self.TestEngine.run(manifest="sample", config={}, params=None)
+            self.HandlerEngine.run(manifest="sample", config={}, result=result)

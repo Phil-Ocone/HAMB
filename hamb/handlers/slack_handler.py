@@ -5,9 +5,9 @@ from slackclient import SlackClient
 
 
 class Handler(object):
-    def __init__(self, CONF):
-        self.slack_token = CONF["slack"]["token"]
-        self.bot_id = str(CONF["slack"]["bot_id"])
+    def __init__(self, config):
+        self.slack_token = config["slack"]["token"]
+        self.bot_id = str(config["slack"]["bot_id"])
 
         self.sc = None
 

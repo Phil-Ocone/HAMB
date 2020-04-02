@@ -2,23 +2,23 @@ from pprint import pprint
 from datetime import datetime
 import yaml
 import pandas as pd
-from cocore.Logger import Logger
-from cocore.config import Config
+from datacoco_core import Logger
 from collections import OrderedDict
 from sqlalchemy import create_engine
 import uuid
 
-CONF = Config()
 LOG = Logger()
 KEY_PREFIX = "dq"
 
 
 class HandlerEngine(object):
     """
-
+    This class is used for sending results to external providers
     """
 
-    def run(self, manifest, result, file_location=None):
+    def run(
+        self, manifest: str, config: dict, result: dict, file_location=None
+    ):
         """
         in this step we read test_result
         import and run appropriate handler(s)
@@ -27,7 +27,7 @@ class HandlerEngine(object):
         LOG.l("\n---------------------------\nhandlers")
         level = result["summary"]["status"]
         LOG.l("handler level: " + level)
-        config = self.get_handler_config(manifest, level, file_location)
+        h_config = self.get_handler_config(manifest, level, file_location)
 
         print(
             "\n---------------------------\noverall results for: "
@@ -46,14 +46,14 @@ class HandlerEngine(object):
         print("\n")
 
         # service specific handlers
-        for handler in config:
+        for handler in h_config:
             print(f"handler: {handler}")
             LOG.l("executing handler: " + list(handler.keys())[0])
             test_module = f"hamb.handlers.{list(handler.keys())[0]}"
             print(test_module)
             mod = __import__(test_module, fromlist=["Handler"])
             class_ = getattr(mod, "Handler")
-            class_(CONF).setup().run(result, list(handler.values())[0])
+            class_(config).setup().run(result, list(handler.values())[0])
 
     @staticmethod
     def get_handler_config(service, level, file_location=None):
@@ -83,24 +83,24 @@ class TestEngine(object):
     main entry point for ham_run
     """
 
-    def run(self, manifest):
+    def run(self, manifest: str, config: dict, params=None, db_log_table=None):
         """
+        this will be the core data model
+        result= {
+            'START SUMMARY': [],
+            'summary': {},
+            'new output': {},
+            'success detail': [],
+            'fail detail': []
+        }
 
-        :param manifest:
+        :param args:
         :return:
         """
         status = None
         passed_cnt = 0
         warning_cnt = 0
         failed_cnt = 0
-        # this will be the core data model
-        # result= {
-        #     'START SUMMARY': [],
-        #     'summary': {},
-        #     'new output': {},
-        #     'success detail': [],
-        #     'fail detail': []
-        # }
 
         result = OrderedDict()
         result["START SUMMARY"] = (
@@ -120,8 +120,9 @@ class TestEngine(object):
         result["fail detail"] = []
         result["success detail"] = []
 
+        params = self.process_params(params)
+
         test_config = self.manifest_reader(manifest)
-        print("test_config", test_config)
         job = []
         stat = []
         diff = []
@@ -136,7 +137,14 @@ class TestEngine(object):
                 )
                 exit(1)
 
-            status, detail = class_(test_conf).setup(CONF).run()
+            if params is None:
+                status, detail = class_(test_conf).setup(config).run()
+            else:
+                try:
+                    status, detail = class_(test_conf, params).run()
+                except Exception as e:
+                    print(str(e))
+                    exit(1)
 
             if status == "success":
                 passed_cnt += 1
@@ -160,35 +168,18 @@ class TestEngine(object):
             LOG.l(status)
             LOG.l(detail)
 
-            # add to database
-            try:
-                engine = create_engine(CONF["hamb"]["database"])
-                idnum = uuid.uuid1()
-                engine.execute(
-                    """
-                INSERT INTO public.hamb_history
-                (manifest, test, status, source_connection, "source count",
-                target_connection, "target count", diff, warning_threshold,
-                failure_threshold, environment, created_time, uuid)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
-                    (
-                        manifest,
-                        test,
-                        status,
-                        test_conf["conn_a"],
-                        detail["result_a"],
-                        test_conf["conn_b"],
-                        detail["result_b"],
-                        detail["diff"],
-                        test_conf["warning_threshold"],
-                        test_conf["failure_threshold"],
-                        CONF["hamb"]["environment"],
-                        datetime.now(),
-                        idnum,
-                    ),
+            # Save execution results to db
+            if db_log_table is not None:
+                self.save_db_log(
+                    db_connection=config["hambot"]["database"],
+                    db_env=config["hambot"]["environment"],
+                    db_table=db_log_table,
+                    manifest=manifest,
+                    manifest_config=test_conf,
+                    test=test,
+                    status=status,
+                    detail=detail,
                 )
-            except Exception as e:
-                print(f"cannot write results to database: {e}")
 
         if failed_cnt > 0:
             overall_status = "failure"
@@ -212,6 +203,62 @@ class TestEngine(object):
 
         return result
 
+    def process_params(self, param_string):
+        if param_string is None:
+            return
+
+        paramDict = {}
+        keyValPairs = param_string.split(",")
+        for pair in keyValPairs:
+            keyVal = pair.split(":")
+            paramDict[keyVal[0]] = keyVal[1]
+        return paramDict
+
+    @staticmethod
+    def save_db_log(
+        db_connection: str,
+        db_env: str,
+        db_table: str,
+        manifest: str,
+        test,
+        status,
+        manifest_config,
+        detail,
+    ):
+        # add to database
+
+        engine = create_engine(db_connection)
+        idnum = uuid.uuid1()
+
+        try:
+            statement = """INSERT INTO {table}
+            (manifest, test, status, source_connection, "source count",
+            target_connection, "target count", diff, warning_threshold,
+            failure_threshold, environment, created_time, uuid)
+            VALUES ('{manifest}', '{test}', '{status}', '{conn_a}', '{result_a}', '{conn_b}', '{result_b}', '{diff}', '{warning}', '{failure}', '{env}', '{datetime}', '{id}')""".format(
+                table=db_table,
+                manifest=manifest,
+                test=test,
+                status=status,
+                conn_a=manifest_config["conn_a"],
+                result_a=", ".join(str(d) for d in detail["result_a"])
+                if isinstance(detail["result_a"], list)
+                else detail["result_a"],
+                conn_b=manifest_config["conn_b"],
+                result_b=", ".join(str(d) for d in detail["result_b"])
+                if isinstance(detail["result_b"], list)
+                else detail["result_b"],
+                diff=detail["diff"] if detail["diff"] is not None else 0,
+                warning=manifest_config["warning_threshold"],
+                failure=manifest_config["failure_threshold"],
+                env=db_env,
+                datetime=datetime.now(),
+                id=idnum,
+            )
+            engine.execute(statement)
+        except Exception as e:
+            print(f"cannot write results to database: {e}")
+
     @staticmethod
     def manifest_reader(manifest, file_location=None):
         """
@@ -227,15 +274,3 @@ class TestEngine(object):
             except Exception as e:
                 LOG.l_exception(f"issue parsing yaml, please check: {e}")
         return test_config
-
-
-def json_serializer(data):
-    """
-    JSON serializer for objects not serializable by default json code"
-    :param obj:
-    :return:
-    """
-    if isinstance(data, datetime):
-        serial = data.isoformat()
-        return serial
-    raise TypeError("Type not serializable")
