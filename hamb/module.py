@@ -2,7 +2,7 @@
 this will be the main entry point to the program,
 will probably end up being a flask web service, with a basic UI
 """
-
+import os
 import sys
 import argparse
 
@@ -23,7 +23,7 @@ def main(args):
 
     config = ConfigWrapper.process_config(args)
 
-    with open("docs/startup_banner.txt", "r") as myfile:
+    with open('docs/startup_banner.txt', "r") as myfile:
         data = myfile.read()
         print(data)
 
