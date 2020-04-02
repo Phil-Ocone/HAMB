@@ -11,7 +11,7 @@ class TestEmailHandler(unittest.TestCase):
         print("----------------test_email")
         result = {"summary": {"status": "test", "manifest": "test"}}
         conf = {
-            "hamb": {"environment": "dev"},
+            "hambot": {"environment": "dev"},
             "aws": {
                 "aws_key": "aws_key",
                 "aws_id": "aws_id",
@@ -19,7 +19,7 @@ class TestEmailHandler(unittest.TestCase):
                 "ses_region": "ses_region",
             },
         }
-        test_class = Handler(CONF=conf)
+        test_class = Handler(config=conf)
         test_class.os = MagicMock()
         test_class.run(result, "email@equinox.com")
         self.assertEqual(True, conf is not None)

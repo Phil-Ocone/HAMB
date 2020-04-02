@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?><testsuite name="nosetests" tests="12" errors="0" failures="0" skip="0"><testcase classname="tests.unit.test_email_handler.TestEmailHandler" name="test_email" time="0.001"><system-out><![CDATA[----------------test_email
+]]></system-out></testcase><testcase classname="tests.unit.test_email_handler.TestEmailHandler" name="test_render_html" time="0.000"></testcase><testcase classname="tests.unit.test_email_handler.TestEmailHandler" name="test_serial_json" time="0.000"></testcase><testcase classname="tests.unit.test_ham_run.TestHamrun" name="test_run_failure" time="0.066"><system-out><![CDATA[Setting up...
+failure
+{'status': 'failure', 'test': 'sample test', 'result_a': 'any result a', 'result_b': 'any result b', 'diff': 1, 'test_conf': {'label': 'this is a test', 'type': 'sample_test_failed_handler', 'conn_a': 'sample_connection_foo', 'conn_b': 'sample_connection_bar', 'script_a': 'select 1 from sample', 'script_b': 'select 0 from sample', 'pct_diff': True, 'heartbeat': True}}
+
+---------------------------
+handlers
+handler level: failure
+
+---------------------------
+overall results for: sample
+
+('**************************************            '
+ '***************************************            '
+ '***************************************            '
+ '***************************************            '
+ '**************************************************************            '
+ '***************************************            '
+ '***************************************            '
+ '***************************************            ************************')
+SUMMARY:
+{'exec_time': '2020-04-02 19:12:39.691890',
+ 'failed_count': 1,
+ 'manifest': 'sample',
+ 'passed_cnt': 0,
+ 'status': 'failure',
+ 'warning_cnt': 0}
+
+SUCCESSES:
+
+[]
+FAILS:
+
+[{'diff': 1,
+  'result_a': 'any result a',
+  'result_b': 'any result b',
+  'status': 'failure',
+  'test': 'sample test',
+  'test_conf': {'conn_a': 'sample_connection_foo',
+                'conn_b': 'sample_connection_bar',
+                'heartbeat': True,
+                'label': 'this is a test',
+                'pct_diff': True,
+                'script_a': 'select 1 from sample',
+                'script_b': 'select 0 from sample',
+                'type': 'sample_test_failed_handler'}}]
+
+
+           Job   Status  Diff
+0  sample test  failure     1
+
+
+]]></system-out></testcase><testcase classname="tests.unit.test_ham_run.TestHamrun" name="test_run_success" time="0.143"><system-out><![CDATA[Setting up...
+success
+{'status': 'success', 'test': 'sample test', 'result_a': 'any result a', 'result_b': 'any result b', 'diff': 0, 'test_conf': {'label': 'this is a test', 'type': 'sample_test_handler', 'conn_a': 'sample_connection_foo', 'conn_b': 'sample_connection_bar', 'script_a': 'select count(*) from sample', 'script_b': 'select count(*) from sample', 'pct_diff': True, 'heartbeat': True}}
+
+---------------------------
+handlers
+handler level: success
+
+---------------------------
+overall results for: sample
+
+('**************************************            '
+ '***************************************            '
+ '***************************************            '
+ '***************************************            '
+ '**************************************************************            '
+ '***************************************            '
+ '***************************************            '
+ '***************************************            ************************')
+SUMMARY:
+{'exec_time': '2020-04-02 19:12:39.856725',
+ 'failed_count': 0,
+ 'manifest': 'sample',
+ 'passed_cnt': 1,
+ 'status': 'success',
+ 'warning_cnt': 0}
+
+SUCCESSES:
+
+[{'diff': 0,
+  'result_a': 'any result a',
+  'result_b': 'any result b',
+  'status': 'success',
+  'test': 'sample test',
+  'test_conf': {'conn_a': 'sample_connection_foo',
+                'conn_b': 'sample_connection_bar',
+                'heartbeat': True,
+                'label': 'this is a test',
+                'pct_diff': True,
+                'script_a': 'select count(*) from sample',
+                'script_b': 'select count(*) from sample',
+                'type': 'sample_test_handler'}}]
+FAILS:
+
+[]
+
+
+           Job   Status Diff
+0  sample test  success     
+
+
+]]></system-out></testcase><testcase classname="tests.unit.test_sftp_handler.TestSFTPHandler" name="test_sftp" time="10.005"><system-out><![CDATA[----------------test_sftp
+listing files:
+uploading to SFTP
+SFTP upload complete
+]]></system-out></testcase><testcase classname="tests.unit.test_sftp_handler.TestSFTPHandler" name="test_sftp_failure" time="0.001"><system-out><![CDATA[----------------test_sftp_failure
+exiting
+]]></system-out></testcase><testcase classname="tests.unit.test_slack_handler.TestSlackHandler" name="test_slack" time="0.003"><system-out><![CDATA[----------------test_email
+<MagicMock name='mock.api_call()' id='4684562504'>
+]]></system-out></testcase><testcase classname="tests.unit.test_sql_compare.TestSqlCompare" name="test_success_run" time="0.007"><system-out><![CDATA[=====>>>>> test_conf: {'label': 'this is a test success', 'conn_a': 'sample_connection_foo', 'conn_b': 'sample_connection_bar', 'script_a': 'select count(*) from sample', 'script_b': 'select count(*) from sample', 'pct_diff': True, 'heartbeat': True}
+conn_a: sample_connection_foo
+conn_b: sample_connection_bar
+
+-----------------------            --------------------------            --------------------
+this is a test success
+---------------------            --------------------------            --------------------
+
+script_a: 
+select count(*) from sample
+
+script_b: 
+select count(*) from sample
+
+comparison mode: percent diff
+heartbeat mode
+]]></system-out></testcase><testcase classname="tests.unit.test_sql_compare_list.TestSqlCompareList" name="test_success_run" time="0.004"><system-out><![CDATA[
+----------------------            -------------------------            ----------------------
+this is a test
+--------------------            -------------------------            ------------------------
+
+
+script_a: 
+select count(*) from sample
+
+script_b: 
+select count(*) from sample
+
+]]></system-out></testcase><testcase classname="tests.unit.test_watch_file_handler.TestWatchFileHandler" name="test_watch_file_handler" time="10.008"><system-out><![CDATA[----------------test_watch_file_handler
+listing files:
+uploading to FTP
+FTP upload complete
+]]></system-out></testcase><testcase classname="tests.unit.test_watch_file_handler.TestWatchFileHandler" name="test_watch_file_handler_failure" time="0.001"><system-out><![CDATA[----------------test_watch_file_handler_failure
+exiting
+]]></system-out></testcase></testsuite>

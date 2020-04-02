@@ -9,7 +9,7 @@ class TestSFTPHandler(unittest.TestCase):
         print("----------------test_sftp")
         result = {"summary": {"status": "test", "manifest": "test"}}
         conf = {
-            "hamb": {"environment": "dev"},
+            "hambot": {"environment": "dev"},
             "hamb_sftp": {
                 "site": "site",
                 "user": "user",
@@ -18,7 +18,7 @@ class TestSFTPHandler(unittest.TestCase):
             },
         }
 
-        test_class = Handler(CONF=conf)
+        test_class = Handler(config=conf)
         test_class.SFTP = MagicMock()
         test_class.run(result, "any text")
         self.assertEqual(True, conf is not None)
@@ -27,7 +27,7 @@ class TestSFTPHandler(unittest.TestCase):
         print("----------------test_sftp_failure")
         result = {"summary": {"status": "failure", "manifest": "test"}}
         conf = {
-            "hamb": {"environment": "dev"},
+            "hambot": {"environment": "dev"},
             "hamb_sftp": {
                 "site": "site",
                 "user": "user",
@@ -36,7 +36,7 @@ class TestSFTPHandler(unittest.TestCase):
             },
         }
 
-        test_class = Handler(CONF=conf)
+        test_class = Handler(config=conf)
         test_class.SFTP = MagicMock()
         test_class.run(result, "any text")
         self.assertEqual(True, conf is not None)

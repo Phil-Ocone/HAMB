@@ -5,9 +5,8 @@ this will be the main entry point to the program
 import os
 import csv
 
-# from pprint import pprint
-from cocore.Logger import Logger
-from codb.rdb_tools import DBInteraction
+from datacoco_core import Logger
+from datacoco_db.rdb_tools import DBInteraction
 
 LOG = Logger()
 
@@ -32,10 +31,23 @@ class SqlCompare(object):
         self.aws_access_key = None
         self.aws_secret_key = None
 
-    def setup(self, config):
-        print("Setting up...")
-        self.conn_a = DBInteraction(config=config[self.conn_a])
-        self.conn_b = DBInteraction(config=config[self.conn_b])
+    def setup(self, config:dict):
+        self.conn_a = DBInteraction(
+                        dbtype=config[self.conn_a]["type"],
+                        dbname=config[self.conn_a]["db_name"],
+                        host=config[self.conn_a]["host"],
+                        user=config[self.conn_a]["user"],
+                        password=config[self.conn_a]["password"],
+                        port=config[self.conn_a]["port"],
+                      )
+        self.conn_b = DBInteraction(
+                        dbtype=config[self.conn_b]["type"],
+                        dbname=config[self.conn_b]["db_name"],
+                        host=config[self.conn_b]["host"],
+                        user=config[self.conn_b]["user"],
+                        password=config[self.conn_b]["password"],
+                        port=config[self.conn_b]["port"],
+                      )
 
         return self
 

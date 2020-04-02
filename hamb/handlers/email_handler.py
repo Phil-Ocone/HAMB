@@ -6,17 +6,14 @@ import os
 import json
 import pandas as pd
 from datetime import datetime
-from coutils.email_tools import Email
+from datacoco_email_tools import Email
 
 
 class Handler(object):
-    """
 
-    """
-
-    def __init__(self, CONF):
-        self.environment = CONF["hamb"]["environment"]
-        self.aws_conf = CONF["aws"]
+    def __init__(self, config):
+        self.environment = config["hambot"]["environment"]
+        self.aws_conf = config["aws"]
         self.aws_key = self.aws_conf["aws_key"]
         self.aws_id = self.aws_conf["aws_id"]
         self.ses_def_sender = self.aws_conf["ses_def_sender"]

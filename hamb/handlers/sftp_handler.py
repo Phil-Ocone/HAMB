@@ -2,19 +2,19 @@
 drops watch file in sftp folder per [hamb] config section
 """
 from time import sleep
-from cocore.Logger import Logger
-from coutils.ftp_tools import FTPInteraction
+from datacoco_core import Logger
+from datacoco_ftp_tools import FTPInteraction
 
 LOG = Logger()
 
 
 class Handler(object):
-    def __init__(self, CONF):
-        self.host = CONF["hamb_sftp"]["site"]
-        self.user = CONF["hamb_sftp"]["user"]
-        self.password = CONF["hamb_sftp"]["password"]
-        self.environment = CONF["hamb"]["environment"]
-        self.path = CONF["hamb_sftp"]["path"]
+    def __init__(self, config):
+        self.host = config["hamb_sftp"]["site"]
+        self.user = config["hamb_sftp"]["user"]
+        self.password = config["hamb_sftp"]["password"]
+        self.environment = config["hambot"]["environment"]
+        self.path = config["hamb_sftp"]["path"]
         self.SFTP = None
 
     def setup(self):
