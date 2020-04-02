@@ -8,7 +8,7 @@ class ConfigWrapper:
     """
 
     @staticmethod
-    def sm_conf(project_name:str, team_name:str):
+    def sm_conf(project_name: str, team_name: str):
         """
         Simple config wrapper for using secrets manager.
         """
@@ -27,14 +27,15 @@ class ConfigWrapper:
         parser.add_argument(
             "-t",
             "--db_log_table",
-            help="Save execution results to target database table. Example: public.table_name"
+            help="Save execution results to target database table. Example: public.table_name",
         )
 
         parser.add_argument(
-            '-p',
-            '--parameters',
-            help="Parameters to replace variables in queries. Example: \"key1:val1,key2:val2\"",
-            required=False)
+            "-p",
+            "--parameters",
+            help='Parameters to replace variables in queries. Example: "key1:val1,key2:val2"',
+            required=False,
+        )
 
         parser.add_argument(
             "-cfg",
@@ -53,7 +54,7 @@ class ConfigWrapper:
             default="Hambot",
             help="""
                 secret manager project group
-                """
+                """,
         )
 
         parser.add_argument(
@@ -62,14 +63,17 @@ class ConfigWrapper:
             default="data",
             help="""
                 secret manager team
-                """
+                """,
         )
         return parser
 
     @staticmethod
     def process_config(args):
         if args.config == "secret_manager":
-            conf = ConfigWrapper.sm_conf(project_name=args.secret_project_name, team_name=args.secret_team)
+            conf = ConfigWrapper.sm_conf(
+                project_name=args.secret_project_name,
+                team_name=args.secret_team,
+            )
         elif args.config == "core":
             conf = config()
 

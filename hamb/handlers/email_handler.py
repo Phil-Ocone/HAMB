@@ -10,7 +10,6 @@ from datacoco_email_tools import Email
 
 
 class Handler(object):
-
     def __init__(self, config):
         self.environment = config["hambot"]["environment"]
         self.aws_conf = config["aws"]

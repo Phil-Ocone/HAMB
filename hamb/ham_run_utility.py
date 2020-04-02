@@ -16,7 +16,9 @@ class HandlerEngine(object):
     This class is used for sending results to external providers
     """
 
-    def run(self, manifest:str, config:dict, result:dict, file_location=None):
+    def run(
+        self, manifest: str, config: dict, result: dict, file_location=None
+    ):
         """
         in this step we read test_result
         import and run appropriate handler(s)
@@ -81,7 +83,7 @@ class TestEngine(object):
     main entry point for ham_run
     """
 
-    def run(self, manifest:str, config:dict, params=None, db_log_table=None):
+    def run(self, manifest: str, config: dict, params=None, db_log_table=None):
         """
         this will be the core data model
         result= {
@@ -169,14 +171,14 @@ class TestEngine(object):
             # Save execution results to db
             if db_log_table is not None:
                 self.save_db_log(
-                    db_connection=config['hambot']['database'],
-                    db_env=config['hambot']['environment'],
+                    db_connection=config["hambot"]["database"],
+                    db_env=config["hambot"]["environment"],
                     db_table=db_log_table,
                     manifest=manifest,
                     manifest_config=test_conf,
                     test=test,
                     status=status,
-                    detail=detail
+                    detail=detail,
                 )
 
         if failed_cnt > 0:
@@ -201,7 +203,6 @@ class TestEngine(object):
 
         return result
 
-
     def process_params(self, param_string):
         if param_string is None:
             return
@@ -210,11 +211,20 @@ class TestEngine(object):
         keyValPairs = param_string.split(",")
         for pair in keyValPairs:
             keyVal = pair.split(":")
-            paramDict[ keyVal[0] ] = keyVal[1]
+            paramDict[keyVal[0]] = keyVal[1]
         return paramDict
 
     @staticmethod
-    def save_db_log( db_connection:str, db_env:str, db_table:str, manifest:str, test, status, manifest_config, detail ):
+    def save_db_log(
+        db_connection: str,
+        db_env: str,
+        db_table: str,
+        manifest: str,
+        test,
+        status,
+        manifest_config,
+        detail,
+    ):
         # add to database
 
         engine = create_engine(db_connection)
@@ -231,20 +241,23 @@ class TestEngine(object):
                 test=test,
                 status=status,
                 conn_a=manifest_config["conn_a"],
-                result_a=', '.join(str(d) for d in detail["result_a"]) if isinstance(detail["result_a"], list) else detail["result_a"],
+                result_a=", ".join(str(d) for d in detail["result_a"])
+                if isinstance(detail["result_a"], list)
+                else detail["result_a"],
                 conn_b=manifest_config["conn_b"],
-                result_b=', '.join(str(d) for d in detail["result_b"]) if isinstance(detail["result_b"], list) else detail["result_b"],
+                result_b=", ".join(str(d) for d in detail["result_b"])
+                if isinstance(detail["result_b"], list)
+                else detail["result_b"],
                 diff=detail["diff"] if detail["diff"] is not None else 0,
                 warning=manifest_config["warning_threshold"],
                 failure=manifest_config["failure_threshold"],
                 env=db_env,
                 datetime=datetime.now(),
-                id=idnum
+                id=idnum,
             )
             engine.execute(statement)
         except Exception as e:
             print(f"cannot write results to database: {e}")
-
 
     @staticmethod
     def manifest_reader(manifest, file_location=None):

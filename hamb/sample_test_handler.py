@@ -22,7 +22,7 @@ class SqlCompare(object):
 
     def setup(self, CONF):
         print("Setting up...")
-        #pass
+        # pass
 
         return self
 

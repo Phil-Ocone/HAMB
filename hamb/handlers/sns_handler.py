@@ -9,4 +9,4 @@ class Handler(object):
     @staticmethod
     def run(result, conf):
         # just a shell for now
-        print('send sns')
+        print("send sns")

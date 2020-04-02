@@ -31,23 +31,23 @@ class SqlCompare(object):
         self.aws_access_key = None
         self.aws_secret_key = None
 
-    def setup(self, config:dict):
+    def setup(self, config: dict):
         self.conn_a = DBInteraction(
-                        dbtype=config[self.conn_a]["type"],
-                        dbname=config[self.conn_a]["db_name"],
-                        host=config[self.conn_a]["host"],
-                        user=config[self.conn_a]["user"],
-                        password=config[self.conn_a]["password"],
-                        port=config[self.conn_a]["port"],
-                      )
+            dbtype=config[self.conn_a]["type"],
+            dbname=config[self.conn_a]["db_name"],
+            host=config[self.conn_a]["host"],
+            user=config[self.conn_a]["user"],
+            password=config[self.conn_a]["password"],
+            port=config[self.conn_a]["port"],
+        )
         self.conn_b = DBInteraction(
-                        dbtype=config[self.conn_b]["type"],
-                        dbname=config[self.conn_b]["db_name"],
-                        host=config[self.conn_b]["host"],
-                        user=config[self.conn_b]["user"],
-                        password=config[self.conn_b]["password"],
-                        port=config[self.conn_b]["port"],
-                      )
+            dbtype=config[self.conn_b]["type"],
+            dbname=config[self.conn_b]["db_name"],
+            host=config[self.conn_b]["host"],
+            user=config[self.conn_b]["user"],
+            password=config[self.conn_b]["password"],
+            port=config[self.conn_b]["port"],
+        )
 
         return self
 

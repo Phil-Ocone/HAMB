@@ -9,6 +9,7 @@ import argparse
 from hamb.config_wrapper import ConfigWrapper
 from hamb.ham_run_utility import TestEngine, HandlerEngine
 
+
 def main(args):
 
     parser = argparse.ArgumentParser()
@@ -26,8 +27,14 @@ def main(args):
         data = myfile.read()
         print(data)
 
-    result = TestEngine().run(manifest=manifest, config=config, db_log_table=db_log_table, params=parameters)
+    result = TestEngine().run(
+        manifest=manifest,
+        config=config,
+        db_log_table=db_log_table,
+        params=parameters,
+    )
     HandlerEngine().run(manifest=manifest, result=result, config=config)
+
 
 if __name__ == "__main__":
     main(sys.argv[1:])
