@@ -4,12 +4,14 @@ from datacoco_secretsmanager import SecretsManager
 
 class ConfigWrapper:
     """
+
     Wrapper file for config management for hambot.
     """
 
     @staticmethod
     def sm_conf(project_name: str, team_name: str):
         """
+
         Simple config wrapper for using secrets manager.
         """
         c = SecretsManager().get_config(project_name, team_name)
@@ -51,7 +53,7 @@ class ConfigWrapper:
         parser.add_argument(
             "-smp",
             "--secret_project_name",
-            default="Hambot",
+            default="hambot",
             help="""
                 secret manager project group
                 """,

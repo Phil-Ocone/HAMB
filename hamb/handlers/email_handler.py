@@ -97,7 +97,7 @@ def render_html(result):
 
 def json_serializer(data):
     """
-    JSON serializer for objects not serializable by default json code"
+    JSON serializer for objects not serializable by default json code
     :param obj:
     :return:
     """

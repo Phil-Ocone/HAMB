@@ -1,5 +1,5 @@
 """
-drops watch file in sftp folder per [hamb] config section
+drops watch file in sftp folder per [hamb] config section.
 """
 from time import sleep
 from datacoco_core import Logger

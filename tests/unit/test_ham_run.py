@@ -1,5 +1,4 @@
 import unittest
-import datetime
 from unittest.mock import patch
 
 from hamb.ham_run_utility import TestEngine, HandlerEngine
@@ -14,7 +13,7 @@ class TestHamrun(unittest.TestCase):
     def test_run_success(self):
         test_config = {"sample_sql_comp_test": {}}
         test_config["sample_sql_comp_test"]["label"] = "this is a test"
-        test_config["sample_sql_comp_test"]["type"] = "sample_test_handler"
+        test_config["sample_sql_comp_test"]["type"] = "handlers.sample_test_handler"
         test_config["sample_sql_comp_test"]["conn_a"] = "sample_connection_foo"
         test_config["sample_sql_comp_test"]["conn_b"] = "sample_connection_bar"
         test_config["sample_sql_comp_test"][
@@ -40,7 +39,7 @@ class TestHamrun(unittest.TestCase):
         test_config["sample_sql_comp_test"]["label"] = "this is a test"
         test_config["sample_sql_comp_test"][
             "type"
-        ] = "sample_test_failed_handler"
+        ] = "handlers.sample_test_failed_handler"
         test_config["sample_sql_comp_test"]["conn_a"] = "sample_connection_foo"
         test_config["sample_sql_comp_test"]["conn_b"] = "sample_connection_bar"
         test_config["sample_sql_comp_test"][
