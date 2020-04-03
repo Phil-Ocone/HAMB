@@ -3,7 +3,6 @@ fail the jenkins build if tests fail
 """
 
 import os
-from time import sleep
 
 
 class Handler:

@@ -23,7 +23,8 @@ def main(args):
 
     config = ConfigWrapper.process_config(args)
 
-    with open('docs/startup_banner.txt', "r") as myfile:
+    script_dir = os.path.dirname(__file__)
+    with open(os.path.join(script_dir, "startup_banner.txt"), "r") as myfile:
         data = myfile.read()
         print(data)
 

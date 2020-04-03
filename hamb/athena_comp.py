@@ -2,7 +2,7 @@
 this will be the main entry point to the program, will probably end up being a flask web service, with a basic UI
 """
 
-import sys, os
+import os
 
 # from pprint import pprint
 from datacoco_core import Logger
@@ -68,8 +68,7 @@ class SqlComp(object):
 
     def run(self):
         """
-
-        :return:
+        :return: tuple
         """
         label = self.test_conf["label"]
         conn_a = self.test_conf["conn_a"]
@@ -91,7 +90,7 @@ class SqlComp(object):
         percent_diff = self.test_conf.get("pct_diff", False)
         heartbeat = self.test_conf.get("heartbeat", False)
         ath_conn = AthenaInteraction(
-            CONF["general"]["aws_access_key"],
+            self.config["general"]["aws_access_key"],
             self.config["general"]["aws_secret_key"],
             self.config["general"]["region"],
         )

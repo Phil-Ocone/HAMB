@@ -89,7 +89,7 @@ class SqlCompare(object):
     def run(self):
         """
 
-        :return:
+        :return
         """
 
         def convert_types(num):

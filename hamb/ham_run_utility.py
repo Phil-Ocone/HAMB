@@ -1,11 +1,13 @@
-from pprint import pprint
-from datetime import datetime
+import os
 import yaml
 import pandas as pd
+import uuid
+from pprint import pprint
+from datetime import datetime
 from datacoco_core import Logger
 from collections import OrderedDict
 from sqlalchemy import create_engine
-import uuid
+from pathlib import Path
 
 LOG = Logger()
 KEY_PREFIX = "dq"
@@ -16,9 +18,7 @@ class HandlerEngine(object):
     This class is used for sending results to external providers
     """
 
-    def run(
-        self, manifest: str, config: dict, result: dict, file_location=None
-    ):
+    def run(self, manifest: str, config: dict, result: dict):
         """
         in this step we read test_result
         import and run appropriate handler(s)
@@ -27,7 +27,7 @@ class HandlerEngine(object):
         LOG.l("\n---------------------------\nhandlers")
         level = result["summary"]["status"]
         LOG.l("handler level: " + level)
-        h_config = self.get_handler_config(manifest, level, file_location)
+        h_config = self.get_handler_config(manifest, level)
 
         print(
             "\n---------------------------\noverall results for: "
@@ -56,15 +56,23 @@ class HandlerEngine(object):
             class_(config).setup().run(result, list(handler.values())[0])
 
     @staticmethod
-    def get_handler_config(service, level, file_location=None):
+    def get_handler_config(service, level):
         """
 
         :param manifest:
         :return:
         """
-        handler_config = None
-        if not file_location:
-            file_location = "services.yaml"
+
+        # Get current working dir and fine manifest folder
+        cwd = os.getcwd()
+        # If file is not found, check hambot main manifest directory
+        file = Path(os.path.join(cwd, f"services.yaml")).is_file()
+        if not file:
+            script_dir = os.path.dirname(__file__)
+            file_location = os.path.join(script_dir, f"config/services.yaml")
+        else:
+            file_location = os.path.join(cwd, f"services.yaml")
+
         with open(file_location, "r") as services_yaml:
             try:
                 obj = yaml.safe_load(services_yaml)
@@ -263,12 +271,41 @@ class TestEngine(object):
     def manifest_reader(manifest, file_location=None):
         """
 
-        :param manifest:
-        :return:
+        :param manifest
+        :return: dict
         """
-        if not file_location:
-            file_location = "manifests/%s.yaml"
-        with open(file_location % manifest, "r") as checklist_yaml:
+        manifest_path, manifest_name = os.path.split(manifest)
+        if manifest_path is None:
+            file_path = f"{manifest_path}/{manifest_name}.yaml"
+            # Check if file exists in given manifest path
+            file = Path(file_path).is_file()
+            if not file:
+                e = f"{file_path} not found."
+                raise RuntimeError(e)
+            file_location = file_path
+        else:
+            # Get current working dir and fine manifest folder
+            cwd = os.getcwd()
+            # If file is not found, check hambot main manifest directory
+            file = Path(
+                os.path.join(cwd, f"manifests/{manifest_name}.yaml")
+            ).is_file()
+            if not file:
+                script_dir = os.path.dirname(__file__)
+                file_location = os.path.join(
+                    script_dir, f"manifests/{manifest_name}.yaml"
+                )
+            else:
+                file_location = os.path.join(
+                    cwd, f"manifests/{manifest_name}.yaml"
+                )
+
+        file = Path(file_location).is_file()
+        if not file:
+            e = f"{file_location} not found."
+            raise RuntimeError(e)
+
+        with open(file_location, "r") as checklist_yaml:
             try:
                 test_config = yaml.safe_load(checklist_yaml)
             except Exception as e:

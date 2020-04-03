@@ -90,7 +90,7 @@ class SqlCompare(object):
     def run(self):
         """
 
-        :return:
+        :return
         """
         label = self.test_conf["label"]
 
