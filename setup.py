@@ -34,6 +34,7 @@ setup(
     url="https://github.com/equinoxfitness/HAMB",
     license="TBD",
     packages=find_packages(exclude=["tests*"]),
+    include_package_data=True,
     install_requires=requires,
     scripts=['bin/hamb'],
     classifiers=[
