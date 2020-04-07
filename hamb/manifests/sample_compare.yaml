@@ -1,6 +1,6 @@
 check_test_compare:
     label: "check_test_compare"
-    type: "sql_compare"
+    type: "sql_comp"
     conn_a: "cosmo"
     script_a: "select 1"
     conn_b: "cosmo"

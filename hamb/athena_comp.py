@@ -1,17 +1,15 @@
-"""
-this will be the main entry point to the program, will probably end up being a flask web service, with a basic UI
-"""
+from gevent import monkey
 
-import os
+monkey.patch_all()
+import gevent
 
-# from pprint import pprint
 from datacoco_core import Logger
 from datacoco_cloud.athena_interaction import AthenaInteraction
 
 LOG = Logger()
 
 
-class SqlComp(object):
+class SqlCompare(object):
     """
 
     """

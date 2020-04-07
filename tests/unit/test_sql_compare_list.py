@@ -1,7 +1,7 @@
 import unittest
 
 from unittest.mock import MagicMock
-from hamb.sql_compare_list import SqlCompare
+from hamb.sql_comp_list import SqlCompare
 
 
 class TestSqlCompareList(unittest.TestCase):

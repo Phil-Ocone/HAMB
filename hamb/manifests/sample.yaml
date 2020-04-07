@@ -1,6 +1,6 @@
 mssql_sql_comp_test:
     label: "mssql_sql_compare_test"
-    type: "sql_compare"
+    type: "sql_comp"
     conn_a: "mssql"
     script_a: "CREATE TABLE #TEST ([name] varchar(256)); SELECT count(*) from #TEST;"
     conn_b: "mssql"
@@ -11,7 +11,7 @@ mssql_sql_comp_test:
 
 mssql_sql_comp_list_test:
     label: "mssql_sql_compare_list_test"
-    type: "sql_compare"
+    type: "sql_comp"
     conn_a: "mssql"
     script_a: "CREATE TABLE #TEST ([name] varchar(256)); SELECT count(*) from #TEST;"
     conn_b: "mssql"
