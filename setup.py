@@ -31,6 +31,7 @@ setup(
     author="Equinox Fitness",
     description="",
     long_description=open("README.rst").read(),
+    long_description_content_type="text/x-rst",
     url="https://github.com/equinoxfitness/HAMB",
     license="TBD",
     packages=find_packages(exclude=["tests*"]),
