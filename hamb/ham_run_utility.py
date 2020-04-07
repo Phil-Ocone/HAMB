@@ -149,7 +149,9 @@ class TestEngine(object):
                 status, detail = class_(test_conf).setup(config).run()
             else:
                 try:
-                    status, detail = class_(test_conf, params).setup(config).run()
+                    status, detail = (
+                        class_(test_conf, params).setup(config).run()
+                    )
                 except Exception as e:
                     print(str(e))
                     exit(1)

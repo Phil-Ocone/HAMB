@@ -1,4 +1,5 @@
 from gevent import monkey
+
 monkey.patch_all()
 import gevent
 
@@ -6,6 +7,7 @@ from datacoco_core import Logger
 from datacoco_cloud.athena_interaction import AthenaInteraction
 
 LOG = Logger()
+
 
 class SqlCompare(object):
     """

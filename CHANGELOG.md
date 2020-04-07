@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - Fixed athena compare param support
     - Updated readme documentation
     - Added manifest path logging
+    - Make backward compatible with old version of manifests
 
 ## [0.1.4] - 2020-04-04
 ### Added
