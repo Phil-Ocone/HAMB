@@ -4,7 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.1.5] - 2020-04-07
+### Changed
+    - Fixed absolute manifest path issue
+    - Fixed athena compare param support
+    - Updated readme documentation
+    - Added manifest path logging
 
 ## [0.1.4] - 2020-04-04
 ### Added
@@ -29,6 +34,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
     - Initial class import
 
+[0.1.5]: https://github.com/equinoxfitness/hamb/compare/v0.1.4...v0.1.5
 [0.1.4]: https://github.com/equinoxfitness/hamb/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/equinoxfitness/hamb/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/equinoxfitness/hamb/compare/v0.1.1...v0.1.2

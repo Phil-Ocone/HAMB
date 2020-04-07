@@ -149,7 +149,7 @@ class TestEngine(object):
                 status, detail = class_(test_conf).setup(config).run()
             else:
                 try:
-                    status, detail = class_(test_conf, params).run()
+                    status, detail = class_(test_conf, params).setup(config).run()
                 except Exception as e:
                     print(str(e))
                     exit(1)
@@ -275,7 +275,7 @@ class TestEngine(object):
         :return: dict
         """
         manifest_path, manifest_name = os.path.split(manifest)
-        if manifest_path is None:
+        if manifest_path:
             file_path = f"{manifest_path}/{manifest_name}.yaml"
             # Check if file exists in given manifest path
             file = Path(file_path).is_file()
@@ -305,6 +305,7 @@ class TestEngine(object):
             e = f"{file_location} not found."
             raise RuntimeError(e)
 
+        print(f"Running manifest: {file_location}")
         with open(file_location, "r") as checklist_yaml:
             try:
                 test_config = yaml.safe_load(checklist_yaml)
