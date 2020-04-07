@@ -39,6 +39,7 @@ Directory Structure
 By default, it will look for manifests folder, etl.cfg and services.yaml in your current working directory.
 
 .. code-block:: console
+
   hamb/
   manifests/
   etl.cfg
@@ -54,12 +55,14 @@ This is about metadata about your test sets, including the sql and diagnostic qu
 
 Services
 ============
+
 ``services.yaml`` This is a global config which stores outbound communication details.
 Basically it says for a given scenerio, what handlers will be used, and with what targets.
 
 
 Handlers
 ========
+
 Test results are printed, but handlers are available for other means of notification.
 See ``/hamb/handlers/``.
 
@@ -126,20 +129,26 @@ Try running ``hamb -m sample_compare`` or ``python -m hamb.module -m sample_comp
 If the manifest is in another folder, you can provide the absolute path
 
 .. code-block:: console
+
   hamb -m /path/to/sample_compare
 
 If you want to use AWS secrets, just include --config secret_manager param.
+
 .. code-block:: console
+
   hamb -m sample_compare --config secret_manager
 
 Hamb also supports logging the results to the database. To use this feature, include -t <your_database_table>.
 See: ``/hamb/ham_run_utility.py``:``save_db_log()`` method for sample table schema.
 
 .. code-block:: console
+
   hamb -m sample_compare --t public.hambot_history
+
 
 Tests
 ============
+
 To run the testing suite, the following commands are required:
 
 .. code-block:: console
@@ -155,6 +164,7 @@ To run the testing suite, the following commands are required:
 
 Documentation
 =============
+
 HAMB documentation is powered by `Sphinx <https://www.sphinx-doc.org/en/master/>`_, a tool that makes documentation easy.
 
 To build docs locally
