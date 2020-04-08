@@ -8,6 +8,7 @@ default:
       - email_handler: "support@yourdomain.com"
       - jenkins_handler: "failed build"
 
+
 # This is the specfic handler config for manifests/sample.yaml
 # Should match the filename in manifest folder.
 sample:
