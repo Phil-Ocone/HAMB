@@ -2,6 +2,11 @@
 this will be the main entry point to the program,
 will probably end up being a flask web service, with a basic UI
 """
+from gevent import monkey
+
+monkey.patch_all()
+import gevent
+
 import os
 import sys
 import argparse

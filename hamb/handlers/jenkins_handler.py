@@ -5,14 +5,15 @@ fail the jenkins build if tests fail
 import os
 
 
-class Handler:
-    @staticmethod
-    def run(result, conf=None):
+class Handler(object):
+    def __init__(self, config=None):
+        self.config = config
+
+    def run(self, result, conf):
         print("DQ check failed, calling jenkins handler")
         # raise RuntimeError('TEST FAILED, STOPPING JENKINS!')
         # raise NameError('TESTS FAILED!')
         exit(1)
-        print("YOU SHALL NOT SEE THIS MESSAGE!")
 
-
-# Handler.run('result')
+    def setup(self):
+        return self
