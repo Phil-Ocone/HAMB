@@ -80,7 +80,7 @@ class HandlerEngine(object):
             except Exception as e:
                 LOG.l_exception(f"issue parsing yaml: {e}")
                 exit(1)
-            if service in obj:
+            if service in obj and obj[service]:
                 handler_config = obj[service].get(level, None)
             else:
                 handler_config = obj["default"][level]
