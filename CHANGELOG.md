@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.1.7] - 2020-06-09
+### Changed
+    - Fixed skip handler if nothing is configured in services
+
 ## [0.1.6] - 2020-04-08
 ### Changed
     - Fixed athena compare MonkeyPatchWarning
@@ -41,6 +45,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
     - Initial class import
 
+[0.1.7]: https://github.com/equinoxfitness/hamb/compare/v0.1.6...v0.1.7
 [0.1.6]: https://github.com/equinoxfitness/hamb/compare/v0.1.5...v0.1.6
 [0.1.5]: https://github.com/equinoxfitness/hamb/compare/v0.1.4...v0.1.5
 [0.1.4]: https://github.com/equinoxfitness/hamb/compare/v0.1.3...v0.1.4
