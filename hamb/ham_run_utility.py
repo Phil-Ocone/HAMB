@@ -46,14 +46,15 @@ class HandlerEngine(object):
         print("\n")
 
         # service specific handlers
-        for handler in h_config:
-            print(f"handler: {handler}")
-            LOG.l("executing handler: " + list(handler.keys())[0])
-            test_module = f"hamb.handlers.{list(handler.keys())[0]}"
-            print(test_module)
-            mod = __import__(test_module, fromlist=["Handler"])
-            class_ = getattr(mod, "Handler")
-            class_(config).setup().run(result, list(handler.values())[0])
+        if config:
+            for handler in h_config:
+                print(f"handler: {handler}")
+                LOG.l("executing handler: " + list(handler.keys())[0])
+                test_module = f"hamb.handlers.{list(handler.keys())[0]}"
+                print(test_module)
+                mod = __import__(test_module, fromlist=["Handler"])
+                class_ = getattr(mod, "Handler")
+                class_(config).setup().run(result, list(handler.values())[0])
 
     @staticmethod
     def get_handler_config(service, level):
@@ -80,7 +81,7 @@ class HandlerEngine(object):
                 LOG.l_exception(f"issue parsing yaml: {e}")
                 exit(1)
             if service in obj:
-                handler_config = obj[service][level]
+                handler_config = obj[service].get(level, None)
             else:
                 handler_config = obj["default"][level]
         return handler_config
