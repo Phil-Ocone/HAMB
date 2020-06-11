@@ -83,7 +83,7 @@ class HandlerEngine(object):
             if service in obj and obj[service]:
                 handler_config = obj[service].get(level, None)
             else:
-                handler_config = obj["default"][level]
+                handler_config = obj["default"].get(level, None)
         return handler_config
 
 
