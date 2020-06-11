@@ -2,8 +2,6 @@
 sns handler - future use
 """
 
-import logging, logging.handlers
-
 
 class Handler(object):
     def __init__(self, config=None):

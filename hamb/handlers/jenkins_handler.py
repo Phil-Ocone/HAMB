@@ -2,8 +2,6 @@
 fail the jenkins build if tests fail
 """
 
-import os
-
 
 class Handler(object):
     def __init__(self, config=None):

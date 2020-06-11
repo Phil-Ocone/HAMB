@@ -1,8 +1,8 @@
-
 from datacoco_cloud.athena_interaction import AthenaInteraction
 from datacoco_core import Logger
 
 LOG = Logger()
+
 
 class SqlCompare(object):
     """
@@ -81,18 +81,18 @@ class SqlCompare(object):
         warning_threshold = self.test_conf.get("warning_threshold", 1)
         failure_threshold = self.test_conf.get("failure_threshold", 1)
         percent_diff = self.test_conf.get("pct_diff", False)
-        heartbeat = self.test_conf.get("heartbeat", False)
+        # heartbeat = self.test_conf.get("heartbeat", False)
         ath_conn = AthenaInteraction(
             self.config["general"]["aws_access_key"],
             self.config["general"]["aws_secret_key"],
             self.config["general"]["region"],
         )
 
-        LOG.l(
-            "\n---------------------------------------------------------------------\n"
-            + label
-            + "\n---------------------------------------------------------------------\n"
-        )
+        LOG.l(f"""
+            ---------------------------------------------------------------------
+            {label}
+            ---------------------------------------------------------------------
+        """)
         print(f"conn_a: {conn_a}")
         print(f"conn_b: {conn_b}")
 

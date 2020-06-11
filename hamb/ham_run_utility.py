@@ -67,12 +67,12 @@ class HandlerEngine(object):
         # Get current working dir and fine manifest folder
         cwd = os.getcwd()
         # If file is not found, check hambot main manifest directory
-        file = Path(os.path.join(cwd, f"services.yaml")).is_file()
+        file = Path(os.path.join(cwd, "services.yaml")).is_file()
         if not file:
             script_dir = os.path.dirname(__file__)
-            file_location = os.path.join(script_dir, f"config/services.yaml")
+            file_location = os.path.join(script_dir, "config/services.yaml")
         else:
-            file_location = os.path.join(cwd, f"services.yaml")
+            file_location = os.path.join(cwd, "services.yaml")
 
         with open(file_location, "r") as services_yaml:
             try:
@@ -83,7 +83,7 @@ class HandlerEngine(object):
             if service in obj and obj[service]:
                 handler_config = obj[service].get(level, None)
             else:
-                handler_config = obj["default"][level]
+                handler_config = obj["default"].get(level, None)
         return handler_config
 
 
@@ -246,7 +246,10 @@ class TestEngine(object):
             (manifest, test, status, source_connection, "source count",
             target_connection, "target count", diff, warning_threshold,
             failure_threshold, environment, created_time, uuid)
-            VALUES ('{manifest}', '{test}', '{status}', '{conn_a}', '{result_a}', '{conn_b}', '{result_b}', '{diff}', '{warning}', '{failure}', '{env}', '{datetime}', '{id}')""".format(
+            VALUES ('{manifest}', '{test}', '{status}', '{conn_a}',
+             '{result_a}', '{conn_b}', '{result_b}', '{diff}',
+            '{warning}', '{failure}', '{env}', '{datetime}', '{id}')
+            """.format(
                 table=db_table,
                 manifest=manifest,
                 test=test,
