@@ -5,12 +5,10 @@ will probably end up being a flask web service, with a basic UI
 from gevent import monkey
 
 monkey.patch_all()
-import gevent
 
 import os
 import sys
 import argparse
-
 from hamb.config_wrapper import ConfigWrapper
 from hamb.ham_run_utility import TestEngine, HandlerEngine
 

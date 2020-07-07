@@ -23,19 +23,28 @@ class ConfigWrapper:
         parser.add_argument(
             "-m",
             "--manifest",
-            help="Enter the manifest name that is in manifests folder. Do not include file extension.",
+            help="""
+                Enter the manifest name that is in manifests folder.
+                Do not include file extension.
+            """,
             default="sample",
         )
         parser.add_argument(
             "-t",
             "--db_log_table",
-            help="Save execution results to target database table. Example: public.table_name",
+            help="""
+                Save execution results to target database table.
+                Example: public.table_name
+            """,
         )
 
         parser.add_argument(
             "-p",
             "--parameters",
-            help='Parameters to replace variables in queries. Example: "key1:val1,key2:val2"',
+            help="""
+                Parameters to replace variables in queries.
+                Example: "key1:val1,key2:val2"
+            """,
             required=False,
         )
 
