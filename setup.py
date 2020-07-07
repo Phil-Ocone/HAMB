@@ -10,7 +10,7 @@ from setuptools import setup, find_packages
 requires = [
     "datacoco-core==0.1.1",
     "datacoco-cloud==0.1.9",
-    "datacoco-db==0.1.7",
+    "datacoco-db==0.1.8",
     "datacoco-email-tools==0.1.3",
     "datacoco-ftp-tools==0.1.3",
     "datacoco-secretsmanager==0.1.4",
