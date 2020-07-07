@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.1.9] - 2020-07-07
+### Changed
+    - Make use of datacoco-db 0.1.8
+
 ## [0.1.8] - 2020-06-12
 ### Changed
     - Improve code quality flake8
@@ -50,6 +54,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
     - Initial class import
 
+[0.1.9]: https://github.com/equinoxfitness/hamb/compare/v0.1.8...v0.1.9
 [0.1.8]: https://github.com/equinoxfitness/hamb/compare/v0.1.7...v0.1.8
 [0.1.7]: https://github.com/equinoxfitness/hamb/compare/v0.1.6...v0.1.7
 [0.1.6]: https://github.com/equinoxfitness/hamb/compare/v0.1.5...v0.1.6
