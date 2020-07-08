@@ -30,24 +30,24 @@ pipeline{
                 sh "pip install -r requirements-dev.txt"
                 sh "pip install coverage codacy-coverage"
                 sh "coverage run -m unittest discover tests -v"
-                // sh "coverage xml -i"
-                // sh "python-codacy-coverage -r coverage.xml"
+                sh "coverage xml -i"
+                sh "python-codacy-coverage -r coverage.xml"
             }
-            post {
-                always {
-                    step([$class: 'CoberturaPublisher',
-                                   autoUpdateHealth: false,
-                                   autoUpdateStability: false,
-                                   coberturaReportFile: 'coverage.xml',
-                                   failNoReports: false,
-                                   failUnhealthy: false,
-                                   failUnstable: false,
-                                   maxNumberOfBuilds: 10,
-                                   onlyStable: false,
-                                   sourceEncoding: 'ASCII',
-                                   zoomCoverageChart: false])
-                }
-            }
+            // post {
+            //     always {
+            //         step([$class: 'CoberturaPublisher',
+            //                        autoUpdateHealth: false,
+            //                        autoUpdateStability: false,
+            //                        coberturaReportFile: 'coverage.xml',
+            //                        failNoReports: false,
+            //                        failUnhealthy: false,
+            //                        failUnstable: false,
+            //                        maxNumberOfBuilds: 10,
+            //                        onlyStable: false,
+            //                        sourceEncoding: 'ASCII',
+            //                        zoomCoverageChart: false])
+            //     }
+            // }
         }
         stage('Deploy to Test Pypi Env') {
             when {
