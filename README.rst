@@ -11,9 +11,17 @@ Getting started with HAMB
    :target: https://travis-ci.org/readthedocs/hamb
    :alt: Build Status
 .. image:: https://readthedocs.org/projects/sphinx-rtd-theme/badge/?version=latest
-  :target: http://sphinx-rtd-theme.readthedocs.io/en/latest/?badge=latest
-  :alt: Documentation Status
-
+   :target: http://sphinx-rtd-theme.readthedocs.io/en/latest/?badge=latest
+   :alt: Documentation Status
+.. image:: https://api.codacy.com/project/badge/Grade/863fb41b20054b52a29187522577ad8e
+    :target: https://app.codacy.com/project/badge/Grade/863fb41b20054b52a29187522577ad8e)](https://www.codacy.com/gh/equinoxfitness/HAMB?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=equinoxfitness/HAMB&amp;utm_campaign=Badge_Grade
+    :alt: Code Quality Grade
+.. image:: https://api.codacy.com/project/badge/Coverage/4d85afc6c49f40eab14f9aa60336ac64
+    :target: https://www.codacy.com/gh/equinoxfitness/datacoco-db?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=equinoxfitness/datacoco-db&amp;utm_campaign=Badge_Coverage
+    :alt: Coverage
+.. image:: https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg
+    :target: https://github.com/equinoxfitness/datacoco-db/blob/master/CODE_OF_CONDUCT.rst
+    :alt: Code of Conduct
 
 Local setup
 ============

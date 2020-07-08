@@ -30,8 +30,8 @@ pipeline{
                 sh "pip install -r requirements-dev.txt"
                 sh "pip install coverage codacy-coverage"
                 sh "coverage run -m unittest discover tests -v"
-                // sh "coverage xml -i"
-                // sh "python-codacy-coverage -r coverage.xml"
+                sh "coverage xml -i"
+                sh "python-codacy-coverage -r coverage.xml"
             }
             // post {
             //     always {
