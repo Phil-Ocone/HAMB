@@ -5,3 +5,4 @@ nose-cov==1.6
 black==19.10b0
 pre-commit==1.20.0
 Sphinx==2.2.1
+setuptools>=65.5.1 # not directly required, pinned by Snyk to avoid a vulnerability
